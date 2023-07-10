@@ -1,5 +1,5 @@
 //
-//  EditPasswordView.swift
+//  EditVaultEntryView.swift
 //  Umbriel
 //
 //  Created by Ryan Mottram on 07/07/2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EditPasswordView: View {
+struct EditVaultEntryView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
     @Environment(\.presentationMode) var presentationMode
@@ -53,8 +53,8 @@ struct EditPasswordView: View {
     }
 }
 
-//struct EditPasswordView_Previews: PreviewProvider {
+//struct EditVaultEntryView: PreviewProvider {
 //    static var previews: some View {
-//        EditPasswordView()
+//        EditVaultEntryView()
 //    }
 //}

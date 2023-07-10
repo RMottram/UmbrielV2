@@ -56,7 +56,7 @@ struct TheVaultView: View {
                         } else {
                             List {
                                 ForEach(self.vault.filter({ searchText.isEmpty ? true : $0.description.contains(searchText) })) { passwords in
-                                    NavigationLink(destination: EditPasswordView(password: passwords)) {
+                                    NavigationLink(destination: EditVaultEntryView(password: passwords)) {
                                         EntryRow(passwordEntry: passwords)
                                     }
                                 }.onDelete(perform: self.removePasswordEntry)
