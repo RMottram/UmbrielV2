@@ -22,7 +22,7 @@ struct EditVaultEntryView: View {
     var body: some View {
         
         Form {
-            Section(header: Text("Blank fields will preserve current information for \(password.title!)").font(.system(size: 12, design: .rounded))) {
+            Section(header: Text("Edit desired details for \(password.title!)").font(.system(size: 12, design: .rounded))) {
                 TextField("\(password.loginItem!)", text: $loginItem).font(.system(.body, design: .rounded))
                     .onAppear {
                         loginItem = password.loginItem!
@@ -53,8 +53,8 @@ struct EditVaultEntryView: View {
     }
 }
 
-//struct EditVaultEntryView: PreviewProvider {
+//struct EditVaultEntryView_Preview: PreviewProvider {
 //    static var previews: some View {
-//        EditVaultEntryView()
+//        EditVaultEntryView(password: password)
 //    }
 //}

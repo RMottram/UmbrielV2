@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		35A9AA052A5C8FBD00940AB2 /* EditVaultEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A9AA042A5C8FBD00940AB2 /* EditVaultEntryView.swift */; };
 		943FC4C32A50173700763340 /* Vault.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 943FC4C12A50173700763340 /* Vault.xcdatamodeld */; };
 		943FC4C52A5018D700763340 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943FC4C42A5018D700763340 /* DataController.swift */; };
 		94577C992A58A4C20086F0F5 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94577C982A58A4C20086F0F5 /* Launch Screen.storyboard */; };
-		94577C9B2A58B17A0086F0F5 /* EditPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94577C9A2A58B17A0086F0F5 /* EditPasswordView.swift */; };
 		949575162A54AE1100861E9E /* AddNewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949575152A54AE1100861E9E /* AddNewPasswordView.swift */; };
 		94C6E7942A57483400154E50 /* TheVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C6E7932A57483400154E50 /* TheVaultView.swift */; };
 		94C9AEBD2A4F6F6100E327A4 /* UmbrielApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEBC2A4F6F6100E327A4 /* UmbrielApp.swift */; };
@@ -48,10 +48,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		35A9AA042A5C8FBD00940AB2 /* EditVaultEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVaultEntryView.swift; sourceTree = "<group>"; };
 		943FC4C22A50173700763340 /* Vault.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Vault.xcdatamodel; sourceTree = "<group>"; };
 		943FC4C42A5018D700763340 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		94577C982A58A4C20086F0F5 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		94577C9A2A58B17A0086F0F5 /* EditPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPasswordView.swift; sourceTree = "<group>"; };
 		949575142A53768B00861E9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		949575152A54AE1100861E9E /* AddNewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPasswordView.swift; sourceTree = "<group>"; };
 		94C6E7932A57483400154E50 /* TheVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheVaultView.swift; sourceTree = "<group>"; };
@@ -104,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				949575152A54AE1100861E9E /* AddNewPasswordView.swift */,
+				35A9AA042A5C8FBD00940AB2 /* EditVaultEntryView.swift */,
 				94C9AEBE2A4F6F6100E327A4 /* ContentView.swift */,
 				94C9AEEB2A4F710900E327A4 /* WaveView.swift */,
 				94C9AEF12A4F72BA00E327A4 /* NotificationBanner.swift */,
@@ -118,7 +119,6 @@
 		94C9AEB02A4F6F6100E327A4 = {
 			isa = PBXGroup;
 			children = (
-				94577C9A2A58B17A0086F0F5 /* EditPasswordView.swift */,
 				94C9AEBB2A4F6F6100E327A4 /* Umbriel */,
 				94C9AED12A4F6F6300E327A4 /* UmbrielTests */,
 				94C9AEDB2A4F6F6300E327A4 /* UmbrielUITests */,
@@ -312,11 +312,11 @@
 			files = (
 				94C9AEFA2A4F79D800E327A4 /* PasswordDetailView.swift in Sources */,
 				94C9AEF22A4F72BB00E327A4 /* NotificationBanner.swift in Sources */,
-				94577C9B2A58B17A0086F0F5 /* EditPasswordView.swift in Sources */,
 				94C9AEF02A4F729B00E327A4 /* Haptics.swift in Sources */,
 				949575162A54AE1100861E9E /* AddNewPasswordView.swift in Sources */,
 				94C9AEF42A4F731200E327A4 /* PasswordGeneratorView.swift in Sources */,
 				94C6E7942A57483400154E50 /* TheVaultView.swift in Sources */,
+				35A9AA052A5C8FBD00940AB2 /* EditVaultEntryView.swift in Sources */,
 				94C9AEEC2A4F710900E327A4 /* WaveView.swift in Sources */,
 				943FC4C52A5018D700763340 /* DataController.swift in Sources */,
 				943FC4C32A50173700763340 /* Vault.xcdatamodeld in Sources */,

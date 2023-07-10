@@ -95,19 +95,19 @@ struct TheVaultView: View {
                     
                     Spacer()
                     
-                    Button(action: {
-                        authenticate()
-                    }) {
-                        if isBiometricSupported {
+                    if isBiometricSupported {
+                        Button(action: {
+                            authenticate()
+                        }) {
                             Text(biometricType == .faceID ? "Unlock with FaceID" : "Unlock with TouchID")
                                 .font(.system(size: 20, design: .rounded))
                         }
+                        .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.width/1.2)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(Color.init(red: 58/255, green: 146/255, blue: 236/255))
+                        .clipShape(Capsule())
                     }
-                    .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.width/1.2)
-                    .padding()
-                    .foregroundColor(.white)
-                    .background(Color.init(red: 58/255, green: 146/255, blue: 236/255))
-                    .clipShape(Capsule())
                     
                     Spacer()
                     
