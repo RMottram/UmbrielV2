@@ -1,0 +1,679 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		943FC4C32A50173700763340 /* Vault.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 943FC4C12A50173700763340 /* Vault.xcdatamodeld */; };
+		943FC4C52A5018D700763340 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943FC4C42A5018D700763340 /* DataController.swift */; };
+		94577C992A58A4C20086F0F5 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94577C982A58A4C20086F0F5 /* Launch Screen.storyboard */; };
+		94577C9B2A58B17A0086F0F5 /* EditPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94577C9A2A58B17A0086F0F5 /* EditPasswordView.swift */; };
+		949575162A54AE1100861E9E /* AddNewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949575152A54AE1100861E9E /* AddNewPasswordView.swift */; };
+		94C6E7942A57483400154E50 /* TheVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C6E7932A57483400154E50 /* TheVaultView.swift */; };
+		94C9AEBD2A4F6F6100E327A4 /* UmbrielApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEBC2A4F6F6100E327A4 /* UmbrielApp.swift */; };
+		94C9AEBF2A4F6F6100E327A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEBE2A4F6F6100E327A4 /* ContentView.swift */; };
+		94C9AEC12A4F6F6300E327A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94C9AEC02A4F6F6300E327A4 /* Assets.xcassets */; };
+		94C9AEC42A4F6F6300E327A4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94C9AEC32A4F6F6300E327A4 /* Preview Assets.xcassets */; };
+		94C9AED32A4F6F6300E327A4 /* UmbrielTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AED22A4F6F6300E327A4 /* UmbrielTests.swift */; };
+		94C9AEDD2A4F6F6300E327A4 /* UmbrielUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEDC2A4F6F6300E327A4 /* UmbrielUITests.swift */; };
+		94C9AEDF2A4F6F6300E327A4 /* UmbrielUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEDE2A4F6F6300E327A4 /* UmbrielUITestsLaunchTests.swift */; };
+		94C9AEEC2A4F710900E327A4 /* WaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEEB2A4F710900E327A4 /* WaveView.swift */; };
+		94C9AEEE2A4F725F00E327A4 /* PasswordLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEED2A4F725F00E327A4 /* PasswordLogic.swift */; };
+		94C9AEF02A4F729B00E327A4 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEEF2A4F729B00E327A4 /* Haptics.swift */; };
+		94C9AEF22A4F72BB00E327A4 /* NotificationBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEF12A4F72BA00E327A4 /* NotificationBanner.swift */; };
+		94C9AEF42A4F731200E327A4 /* PasswordGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEF32A4F731200E327A4 /* PasswordGeneratorView.swift */; };
+		94C9AEF62A4F73C000E327A4 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEF52A4F73C000E327A4 /* InfoView.swift */; };
+		94C9AEFA2A4F79D800E327A4 /* PasswordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEF92A4F79D800E327A4 /* PasswordDetailView.swift */; };
+		94C9AEFC2A4F7A4D00E327A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9AEFB2A4F7A4D00E327A4 /* AppDelegate.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		94C9AECF2A4F6F6300E327A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 94C9AEB12A4F6F6100E327A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94C9AEB82A4F6F6100E327A4;
+			remoteInfo = Umbriel;
+		};
+		94C9AED92A4F6F6300E327A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 94C9AEB12A4F6F6100E327A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94C9AEB82A4F6F6100E327A4;
+			remoteInfo = Umbriel;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		943FC4C22A50173700763340 /* Vault.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Vault.xcdatamodel; sourceTree = "<group>"; };
+		943FC4C42A5018D700763340 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		94577C982A58A4C20086F0F5 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		94577C9A2A58B17A0086F0F5 /* EditPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPasswordView.swift; sourceTree = "<group>"; };
+		949575142A53768B00861E9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		949575152A54AE1100861E9E /* AddNewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPasswordView.swift; sourceTree = "<group>"; };
+		94C6E7932A57483400154E50 /* TheVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheVaultView.swift; sourceTree = "<group>"; };
+		94C9AEB92A4F6F6100E327A4 /* Umbriel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Umbriel.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		94C9AEBC2A4F6F6100E327A4 /* UmbrielApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UmbrielApp.swift; sourceTree = "<group>"; };
+		94C9AEBE2A4F6F6100E327A4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		94C9AEC02A4F6F6300E327A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		94C9AEC32A4F6F6300E327A4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		94C9AECE2A4F6F6300E327A4 /* UmbrielTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UmbrielTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		94C9AED22A4F6F6300E327A4 /* UmbrielTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UmbrielTests.swift; sourceTree = "<group>"; };
+		94C9AED82A4F6F6300E327A4 /* UmbrielUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UmbrielUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		94C9AEDC2A4F6F6300E327A4 /* UmbrielUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UmbrielUITests.swift; sourceTree = "<group>"; };
+		94C9AEDE2A4F6F6300E327A4 /* UmbrielUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UmbrielUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		94C9AEEB2A4F710900E327A4 /* WaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveView.swift; sourceTree = "<group>"; };
+		94C9AEED2A4F725F00E327A4 /* PasswordLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordLogic.swift; sourceTree = "<group>"; };
+		94C9AEEF2A4F729B00E327A4 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		94C9AEF12A4F72BA00E327A4 /* NotificationBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBanner.swift; sourceTree = "<group>"; };
+		94C9AEF32A4F731200E327A4 /* PasswordGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorView.swift; sourceTree = "<group>"; };
+		94C9AEF52A4F73C000E327A4 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		94C9AEF92A4F79D800E327A4 /* PasswordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordDetailView.swift; sourceTree = "<group>"; };
+		94C9AEFB2A4F7A4D00E327A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		94C9AEB62A4F6F6100E327A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94C9AECB2A4F6F6300E327A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94C9AED52A4F6F6300E327A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		949575172A55E0CA00861E9E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				949575152A54AE1100861E9E /* AddNewPasswordView.swift */,
+				94C9AEBE2A4F6F6100E327A4 /* ContentView.swift */,
+				94C9AEEB2A4F710900E327A4 /* WaveView.swift */,
+				94C9AEF12A4F72BA00E327A4 /* NotificationBanner.swift */,
+				94C9AEF32A4F731200E327A4 /* PasswordGeneratorView.swift */,
+				94C9AEF52A4F73C000E327A4 /* InfoView.swift */,
+				94C6E7932A57483400154E50 /* TheVaultView.swift */,
+				94577C982A58A4C20086F0F5 /* Launch Screen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		94C9AEB02A4F6F6100E327A4 = {
+			isa = PBXGroup;
+			children = (
+				94577C9A2A58B17A0086F0F5 /* EditPasswordView.swift */,
+				94C9AEBB2A4F6F6100E327A4 /* Umbriel */,
+				94C9AED12A4F6F6300E327A4 /* UmbrielTests */,
+				94C9AEDB2A4F6F6300E327A4 /* UmbrielUITests */,
+				94C9AEBA2A4F6F6100E327A4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		94C9AEBA2A4F6F6100E327A4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				94C9AEB92A4F6F6100E327A4 /* Umbriel.app */,
+				94C9AECE2A4F6F6300E327A4 /* UmbrielTests.xctest */,
+				94C9AED82A4F6F6300E327A4 /* UmbrielUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		94C9AEBB2A4F6F6100E327A4 /* Umbriel */ = {
+			isa = PBXGroup;
+			children = (
+				949575172A55E0CA00861E9E /* Views */,
+				94C9AEFB2A4F7A4D00E327A4 /* AppDelegate.swift */,
+				943FC4C12A50173700763340 /* Vault.xcdatamodeld */,
+				94C9AEC22A4F6F6300E327A4 /* Preview Content */,
+				94C9AEC02A4F6F6300E327A4 /* Assets.xcassets */,
+				943FC4C42A5018D700763340 /* DataController.swift */,
+				94C9AEEF2A4F729B00E327A4 /* Haptics.swift */,
+				949575142A53768B00861E9E /* Info.plist */,
+				94C9AEBC2A4F6F6100E327A4 /* UmbrielApp.swift */,
+				94C9AEED2A4F725F00E327A4 /* PasswordLogic.swift */,
+				94C9AEF92A4F79D800E327A4 /* PasswordDetailView.swift */,
+			);
+			path = Umbriel;
+			sourceTree = "<group>";
+		};
+		94C9AEC22A4F6F6300E327A4 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				94C9AEC32A4F6F6300E327A4 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		94C9AED12A4F6F6300E327A4 /* UmbrielTests */ = {
+			isa = PBXGroup;
+			children = (
+				94C9AED22A4F6F6300E327A4 /* UmbrielTests.swift */,
+			);
+			path = UmbrielTests;
+			sourceTree = "<group>";
+		};
+		94C9AEDB2A4F6F6300E327A4 /* UmbrielUITests */ = {
+			isa = PBXGroup;
+			children = (
+				94C9AEDC2A4F6F6300E327A4 /* UmbrielUITests.swift */,
+				94C9AEDE2A4F6F6300E327A4 /* UmbrielUITestsLaunchTests.swift */,
+			);
+			path = UmbrielUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		94C9AEB82A4F6F6100E327A4 /* Umbriel */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94C9AEE22A4F6F6300E327A4 /* Build configuration list for PBXNativeTarget "Umbriel" */;
+			buildPhases = (
+				94C9AEB52A4F6F6100E327A4 /* Sources */,
+				94C9AEB62A4F6F6100E327A4 /* Frameworks */,
+				94C9AEB72A4F6F6100E327A4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Umbriel;
+			productName = Umbriel;
+			productReference = 94C9AEB92A4F6F6100E327A4 /* Umbriel.app */;
+			productType = "com.apple.product-type.application";
+		};
+		94C9AECD2A4F6F6300E327A4 /* UmbrielTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94C9AEE52A4F6F6300E327A4 /* Build configuration list for PBXNativeTarget "UmbrielTests" */;
+			buildPhases = (
+				94C9AECA2A4F6F6300E327A4 /* Sources */,
+				94C9AECB2A4F6F6300E327A4 /* Frameworks */,
+				94C9AECC2A4F6F6300E327A4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94C9AED02A4F6F6300E327A4 /* PBXTargetDependency */,
+			);
+			name = UmbrielTests;
+			productName = UmbrielTests;
+			productReference = 94C9AECE2A4F6F6300E327A4 /* UmbrielTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		94C9AED72A4F6F6300E327A4 /* UmbrielUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94C9AEE82A4F6F6300E327A4 /* Build configuration list for PBXNativeTarget "UmbrielUITests" */;
+			buildPhases = (
+				94C9AED42A4F6F6300E327A4 /* Sources */,
+				94C9AED52A4F6F6300E327A4 /* Frameworks */,
+				94C9AED62A4F6F6300E327A4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94C9AEDA2A4F6F6300E327A4 /* PBXTargetDependency */,
+			);
+			name = UmbrielUITests;
+			productName = UmbrielUITests;
+			productReference = 94C9AED82A4F6F6300E327A4 /* UmbrielUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		94C9AEB12A4F6F6100E327A4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					94C9AEB82A4F6F6100E327A4 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					94C9AECD2A4F6F6300E327A4 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 94C9AEB82A4F6F6100E327A4;
+					};
+					94C9AED72A4F6F6300E327A4 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 94C9AEB82A4F6F6100E327A4;
+					};
+				};
+			};
+			buildConfigurationList = 94C9AEB42A4F6F6100E327A4 /* Build configuration list for PBXProject "Umbriel" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 94C9AEB02A4F6F6100E327A4;
+			productRefGroup = 94C9AEBA2A4F6F6100E327A4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				94C9AEB82A4F6F6100E327A4 /* Umbriel */,
+				94C9AECD2A4F6F6300E327A4 /* UmbrielTests */,
+				94C9AED72A4F6F6300E327A4 /* UmbrielUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		94C9AEB72A4F6F6100E327A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94577C992A58A4C20086F0F5 /* Launch Screen.storyboard in Resources */,
+				94C9AEC42A4F6F6300E327A4 /* Preview Assets.xcassets in Resources */,
+				94C9AEC12A4F6F6300E327A4 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94C9AECC2A4F6F6300E327A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94C9AED62A4F6F6300E327A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		94C9AEB52A4F6F6100E327A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94C9AEFA2A4F79D800E327A4 /* PasswordDetailView.swift in Sources */,
+				94C9AEF22A4F72BB00E327A4 /* NotificationBanner.swift in Sources */,
+				94577C9B2A58B17A0086F0F5 /* EditPasswordView.swift in Sources */,
+				94C9AEF02A4F729B00E327A4 /* Haptics.swift in Sources */,
+				949575162A54AE1100861E9E /* AddNewPasswordView.swift in Sources */,
+				94C9AEF42A4F731200E327A4 /* PasswordGeneratorView.swift in Sources */,
+				94C6E7942A57483400154E50 /* TheVaultView.swift in Sources */,
+				94C9AEEC2A4F710900E327A4 /* WaveView.swift in Sources */,
+				943FC4C52A5018D700763340 /* DataController.swift in Sources */,
+				943FC4C32A50173700763340 /* Vault.xcdatamodeld in Sources */,
+				94C9AEFC2A4F7A4D00E327A4 /* AppDelegate.swift in Sources */,
+				94C9AEEE2A4F725F00E327A4 /* PasswordLogic.swift in Sources */,
+				94C9AEBF2A4F6F6100E327A4 /* ContentView.swift in Sources */,
+				94C9AEF62A4F73C000E327A4 /* InfoView.swift in Sources */,
+				94C9AEBD2A4F6F6100E327A4 /* UmbrielApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94C9AECA2A4F6F6300E327A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94C9AED32A4F6F6300E327A4 /* UmbrielTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94C9AED42A4F6F6300E327A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94C9AEDD2A4F6F6300E327A4 /* UmbrielUITests.swift in Sources */,
+				94C9AEDF2A4F6F6300E327A4 /* UmbrielUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		94C9AED02A4F6F6300E327A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94C9AEB82A4F6F6100E327A4 /* Umbriel */;
+			targetProxy = 94C9AECF2A4F6F6300E327A4 /* PBXContainerItemProxy */;
+		};
+		94C9AEDA2A4F6F6300E327A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94C9AEB82A4F6F6100E327A4 /* Umbriel */;
+			targetProxy = 94C9AED92A4F6F6300E327A4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		94C9AEE02A4F6F6300E327A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		94C9AEE12A4F6F6300E327A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		94C9AEE32A4F6F6300E327A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Umbriel/Preview Content\"";
+				DEVELOPMENT_TEAM = LBVLR48R2V;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Umbriel/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Umbriel;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please authenticate to enter TheVault";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryanmottram.Umbriel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		94C9AEE42A4F6F6300E327A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Umbriel/Preview Content\"";
+				DEVELOPMENT_TEAM = LBVLR48R2V;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Umbriel/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Umbriel;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please authenticate to enter TheVault";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryanmottram.Umbriel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		94C9AEE62A4F6F6300E327A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LBVLR48R2V;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryanmottram.UmbrielTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Umbriel.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Umbriel";
+			};
+			name = Debug;
+		};
+		94C9AEE72A4F6F6300E327A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LBVLR48R2V;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryanmottram.UmbrielTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Umbriel.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Umbriel";
+			};
+			name = Release;
+		};
+		94C9AEE92A4F6F6300E327A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LBVLR48R2V;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryanmottram.UmbrielUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Umbriel;
+			};
+			name = Debug;
+		};
+		94C9AEEA2A4F6F6300E327A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LBVLR48R2V;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryanmottram.UmbrielUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Umbriel;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		94C9AEB42A4F6F6100E327A4 /* Build configuration list for PBXProject "Umbriel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94C9AEE02A4F6F6300E327A4 /* Debug */,
+				94C9AEE12A4F6F6300E327A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94C9AEE22A4F6F6300E327A4 /* Build configuration list for PBXNativeTarget "Umbriel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94C9AEE32A4F6F6300E327A4 /* Debug */,
+				94C9AEE42A4F6F6300E327A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94C9AEE52A4F6F6300E327A4 /* Build configuration list for PBXNativeTarget "UmbrielTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94C9AEE62A4F6F6300E327A4 /* Debug */,
+				94C9AEE72A4F6F6300E327A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94C9AEE82A4F6F6300E327A4 /* Build configuration list for PBXNativeTarget "UmbrielUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94C9AEE92A4F6F6300E327A4 /* Debug */,
+				94C9AEEA2A4F6F6300E327A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		943FC4C12A50173700763340 /* Vault.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				943FC4C22A50173700763340 /* Vault.xcdatamodel */,
+			);
+			currentVersion = 943FC4C22A50173700763340 /* Vault.xcdatamodel */;
+			path = Vault.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 94C9AEB12A4F6F6100E327A4 /* Project object */;
+}
