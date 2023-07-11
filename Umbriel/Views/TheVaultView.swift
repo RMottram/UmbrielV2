@@ -195,67 +195,69 @@ struct TheVaultView: View {
             }
         }
     }
+}
+
+// MARK: Vault SearchBarView
+struct SearchBar: View {
+    @Binding var text: String
     
-    // MARK: Vault SearchBarView
-    struct SearchBar: View {
-        @Binding var text: String
-        
-        @State private var isEditing = false
-        
-        var body: some View {
-            HStack {
-                
-                TextField("Search...", text: $text)
-                    .font(.system(.body, design: .rounded))
-                    .padding(7)
-                    .padding(.horizontal, 25)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(16)
-                    .overlay(
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                .padding(.leading, 8)
-                            
-                            if isEditing {
-                                Button(action: {
-                                    self.text = ""
-                                }) {
-                                    Image(systemName: "multiply.circle.fill")
-                                        .foregroundColor(.gray)
-                                        .padding(.trailing, 8)
-                                }
+    @State private var isEditing = false
+    
+    var body: some View {
+        HStack {
+            
+            TextField("", text: $text)
+                .font(.system(.body, design: .rounded))
+                .padding(7)
+                .padding(.horizontal, 25)
+                .background(Color(.systemGray6))
+                .cornerRadius(10)
+                .overlay(
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.gray)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading, 8)
+                        
+                        if isEditing {
+                            Button(action: {
+                                self.text = ""
+                            }) {
+                                Image(systemName: "multiply.circle.fill")
+                                    .foregroundColor(.gray)
+                                    .padding(.trailing, 8)
                             }
+                            .transition(AnyTransition.opacity.animation(.easeIn(duration: 0.2)))
                         }
-                    )
-                    .padding(.horizontal, 10)
-                    .transition(AnyTransition.move(edge: .leading).combined(with: .opacity))
-                    .animation(.easeInOut)
-                    .onTapGesture {
+                    }
+                )
+                .padding(.horizontal, 10)
+                .onTapGesture {
+                    withAnimation {
                         self.isEditing = true
                     }
-                
-                if isEditing {
-                    Button(action: {
-                        self.isEditing = false
-                        self.text = ""
-                        
-                        // dismiss keyboard
-                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                        
-                    }) {
-                        Text("Cancel")
-                            .font(.system(.body, design: .rounded))
-                    }
-                    .padding(.trailing, 10)
-                    .transition(AnyTransition.move(edge: .trailing))
-                    .animation(.easeInOut)
                 }
+            
+            if isEditing {
+                Button(action: {
+                    withAnimation {
+                        self.isEditing = false
+                    }
+                    self.text = ""
+                    
+                    // dismiss keyboard
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    
+                }) {
+                    Text("Cancel")
+                        .font(.system(.body, design: .rounded))
+                }
+                .padding(.trailing, 10)
+                .transition(AnyTransition.move(edge: .trailing))
+                .animation(.easeIn(duration: 0.2))
             }
         }
     }
-    
 }
 
 struct TheVaultView_Previews: PreviewProvider {
