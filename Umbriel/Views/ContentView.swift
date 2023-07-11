@@ -16,7 +16,7 @@ struct ContentView: View {
     var passwordTester = PasswordLogic()
     var hapticGen = Haptics()
     
-    @State private var isPurchased:Bool = false
+    @State var shouldShowOnboarding = true // change to @AppStorage to persist bool value
     @State private var isInfoView = false
     @State private var showCopyNote = false
     @State private var password = ""
@@ -236,6 +236,9 @@ struct ContentView: View {
                     Text("TheVault")
                 }.tag(2)
             
+        }
+        .fullScreenCover(isPresented: $shouldShowOnboarding) {
+            OnboardingView(shouldShowOnboarding: $shouldShowOnboarding)
         }
         .sheet(isPresented: $isInfoView) {
             InfoView()
