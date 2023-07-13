@@ -20,6 +20,7 @@ struct TheVaultView: View {
     @State private var noBiometrics = false
     @State private var isBiometricSupported = false
     @State private var biometricType = LABiometryType.none
+    @State private var isDeleteAll = false
     
     var body: some View {
         
@@ -36,15 +37,18 @@ struct TheVaultView: View {
                             SearchBar(text: $searchText)
                                 .padding(.top, 10)
                             HStack {
-                                Spacer()
                                 if self.vault.count == 1 {
-                                    Text("\(vault.count) entry").font(.system(.caption, design: .rounded)).foregroundColor(.secondary).fontWeight(.light)
-                                        .padding(.trailing, 12)
+                                    Text("\(vault.count) entry")
+                                        .font(.system(.caption, design: .rounded))
+                                        .foregroundColor(.secondary).fontWeight(.light)
+                                        .padding(.leading, 12)
+                                } else {
+                                    Text("\(vault.count) entries")
+                                        .font(.system(.caption, design: .rounded))
+                                        .foregroundColor(.secondary).fontWeight(.light)
+                                        .padding(.leading, 12)
                                 }
-                                if self.vault.count >= 2 || self.vault.count == 0 {
-                                    Text("\(vault.count) entries").font(.system(.caption, design: .rounded)).foregroundColor(.secondary).fontWeight(.light)
-                                        .padding(.trailing, 12)
-                                }
+                                Spacer()
                             }
                         }
                         
@@ -69,6 +73,13 @@ struct TheVaultView: View {
                     .navigationBarItems(leading: EditButton(), trailing:
                                             HStack {
                         Button(action: {
+                            isDeleteAll.toggle()
+                        }) {
+                            Image(systemName: "trash")
+                                .foregroundColor(.weakColour)
+                        }
+                        .offset(x: -20)
+                        Button(action: {
                             showAddView.toggle()
                         }) {
                             Image(systemName: "plus")
@@ -77,6 +88,15 @@ struct TheVaultView: View {
                         .sheet(isPresented: $showAddView) {
                             AddNewPasswordView()
                         })
+                }
+                .alert(isPresented: $isDeleteAll) {
+                    Alert(
+                        title: Text("Delete All"),
+                        message: Text("Are you sure you want to delete all? This cannot be undone!"),
+                        primaryButton: .cancel(Text("Cancel")),
+                        secondaryButton: .destructive(Text("Delete All"), action: {
+                            DataController().deleteAllEntries(context: managedObjContext)
+                    }))
                 }
                 .onDisappear(perform: lockVault)
             } else {
@@ -190,7 +210,7 @@ struct TheVaultView: View {
             HStack {
                 VStack(alignment: .leading) {
                     Text(passwordEntry.title ?? "No title given").font(.system(.body, design: .rounded)).bold()
-                        .padding(.vertical, 15)
+                        .padding(.vertical, 10)
                 }
             }
         }

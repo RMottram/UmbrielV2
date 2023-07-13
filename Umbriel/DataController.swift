@@ -52,4 +52,22 @@ class DataController: ObservableObject {
         save(context: context)
     }
     
+    func deleteAllEntries(context: NSManagedObjectContext) {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Vault.fetchRequest()
+        fetchRequest.includesPropertyValues = false
+        
+        do {
+            let objects = try context.fetch(fetchRequest) as! [NSManagedObject]
+            
+            for object in objects {
+                context.delete(object)
+            }
+            
+            save(context: context) // Save the changes
+            print("All entries deleted!")
+        } catch {
+            print("Failed to delete all entries: \(error.localizedDescription)")
+        }
+    }
+    
 }

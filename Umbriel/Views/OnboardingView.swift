@@ -80,8 +80,8 @@ struct OnboardPageView: View {
                         .font(.system(size: 16, design: .rounded))
                 }
                 .padding()
-                .foregroundColor(.black)
-                .opacity(0.2)
+                .foregroundColor(.gray)
+                .opacity(0.5)
             }
         }
     }
