@@ -106,7 +106,7 @@ struct TheVaultView: View {
                         .padding()
                         .foregroundColor(.white)
                         .background(Color.init(red: 58/255, green: 146/255, blue: 236/255))
-                        .clipShape(Capsule())
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     }
                     
                     Spacer()

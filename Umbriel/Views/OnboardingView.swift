@@ -14,15 +14,15 @@ struct OnboardingView: View {
     var body: some View {
         TabView {
             
-            OnboardPageView(title: "Welcome to Umbriel! 🙋🏻‍♂️", message: "A modern password manager, with a modern UI!", imageName: "house.lodge.fill", imageColour: .standbyColour, isDismissButtonShowing: false, shouldShowOnboarding: $shouldShowOnboarding)
+            OnboardPageView(title: "Welcome to Umbriel! 🙋🏻‍♂️", message: "A modern password manager, with a modern and fluid UI!", imageName: "house.lodge.fill", imageColour: .standbyColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
             
-            OnboardPageView(title: "A test of strength! 💪🏼", message: "Test the strength of a password using a modern and clean interface. Use the password tips to improve where needed!", imageName: "figure.strengthtraining.traditional", imageColour: .weakColour, isDismissButtonShowing: false, shouldShowOnboarding: $shouldShowOnboarding)
+            OnboardPageView(title: "A test of strength! 💪🏼", message: "Test the strength of a password using the wave animations as a sign of its strength. Use the password tips to improve where needed!", imageName: "figure.strengthtraining.traditional", imageColour: .weakColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
             
-            OnboardPageView(title: "Can't think? 🤔", message: "Use the password generator to create a password for you! Customise the length, use of symbols and numbers to get the right password for you!", imageName: "wand.and.stars", imageColour: .vStrongColour, isDismissButtonShowing: false, shouldShowOnboarding: $shouldShowOnboarding)
+            OnboardPageView(title: "Can't think? 🤔", message: "Use the password generator to create a password for you! Customise the length, use of symbols and numbers to get the right password for you!", imageName: "wand.and.stars", imageColour: .vStrongColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
             
-            OnboardPageView(title: "Safe and sound! 🔐", message: "Keep your passwords at hand safely using the integrated Vault that encrypts the data and is locked behind your FaceID or TouchID credentials!", imageName: "lock.shield.fill", imageColour: .averageColour, isDismissButtonShowing: false, shouldShowOnboarding: $shouldShowOnboarding)
+            OnboardPageView(title: "Safe and sound! 🔐", message: "Keep your passwords at hand safely using the integrated Vault that encrypts the data and is locked behind your FaceID or TouchID credentials!", imageName: "lock.shield.fill", imageColour: .averageColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
             
-            OnboardPageView(title: "That's all to it! 😊", message: "Come on in and start securing and protecting your data now!", imageName: "checkmark.shield.fill", imageColour: .strongColour, isDismissButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
+            OnboardPageView(title: "That's all to it! 😊", message: "Come on in and start securing and protecting your data now!", imageName: "checkmark.shield.fill", imageColour: .strongColour, isDismissButtonShowing: true, isSkipButtonShowing: false, shouldShowOnboarding: $shouldShowOnboarding)
             
         }
         .tabViewStyle(PageTabViewStyle())
@@ -37,6 +37,7 @@ struct OnboardPageView: View {
     let imageName: String
     let imageColour: Color
     let isDismissButtonShowing: Bool
+    let isSkipButtonShowing: Bool
     
     @Binding var shouldShowOnboarding: Bool
     
@@ -70,6 +71,17 @@ struct OnboardPageView: View {
                 .foregroundColor(.white)
                 .background(Color.init(red: 58/255, green: 146/255, blue: 236/255))
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            }
+            if isSkipButtonShowing {
+                Button(action: {
+                    shouldShowOnboarding.toggle()
+                }) {
+                    Text("Skip")
+                        .font(.system(size: 16, design: .rounded))
+                }
+                .padding()
+                .foregroundColor(.black)
+                .opacity(0.2)
             }
         }
     }

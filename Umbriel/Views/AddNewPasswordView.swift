@@ -10,6 +10,7 @@ import SwiftUI
 struct AddNewPasswordView: View {
     
     var hapticGen = Haptics()
+    var passwordStrength = PasswordLogic()
     
     @Environment(\.managedObjectContext) var context
     @Environment(\.presentationMode) var presentationMode
@@ -20,6 +21,14 @@ struct AddNewPasswordView: View {
     @State var loginItem:String = ""
     @State var passwordEntry:String = ""
     @State var note:String = ""
+    @State var strength:String = ""
+    @State var strengthVerdict:String = ""
+    
+    @State private var isBlank:Bool = false
+    @State private var isWeak:Bool = false
+    @State private var isAverage:Bool = false
+    @State private var isStrong:Bool = false
+    @State private var isVeryStrong:Bool = false
     
     var body: some View {
         
@@ -53,11 +62,14 @@ struct AddNewPasswordView: View {
                         self.isAnyInfoMissing = true
                         self.hapticGen.simpleError()
                     } else {
+                        TestPass()
                         self.hapticGen.simpleSuccess()
+                        passwordStrength.TestStrength(password: passwordEntry)
                         DataController().addVaultEntry(password: passwordEntry,
                                                        title: passwordTitle,
                                                        loginItem: loginItem,
-                                                       notes: "\(passwordTitle) note",
+                                                       notes: "\(passwordTitle) notes",
+                                                       strength: strengthVerdict,
                                                        context: context)
                         
                         presentationMode.wrappedValue.dismiss()
@@ -77,6 +89,27 @@ struct AddNewPasswordView: View {
             isSheetPresented = false
             presentationMode.wrappedValue.dismiss()
         }
+    
+    private func TestPass() {
+        
+        switch self.passwordStrength.TestStrength(password: passwordEntry)
+        {
+            case .Blank:
+                self.isBlank = true
+            case .Weak:
+                self.isWeak = true
+            strengthVerdict = "Weak"
+            case .Average:
+                self.isAverage = true
+            strengthVerdict = "Average"
+            case .Strong:
+                self.isStrong = true
+            strengthVerdict = "Strong"
+            case .VeryStrong:
+                self.isVeryStrong = true
+            strengthVerdict = "Very Strong"
+        }
+    }
     
 }
 

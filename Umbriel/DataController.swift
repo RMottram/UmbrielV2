@@ -30,7 +30,7 @@ class DataController: ObservableObject {
         }
     }
     
-    func addVaultEntry(password: String, title: String, loginItem: String, notes: String, context: NSManagedObjectContext) {
+    func addVaultEntry(password: String, title: String, loginItem: String, notes: String, strength: String, context: NSManagedObjectContext) {
         let vaultEntry = Vault(context: context)
         vaultEntry.id = UUID()
         vaultEntry.dateCreated = Date()
@@ -38,14 +38,16 @@ class DataController: ObservableObject {
         vaultEntry.notes = notes
         vaultEntry.password = password
         vaultEntry.title = title
+        vaultEntry.passwordStrength = strength
         
         save(context: context)
     }
     
-    func editVaultEntry(vault: Vault, loginItem: String, notes: String, password: String, context: NSManagedObjectContext) {
+    func editVaultEntry(vault: Vault, loginItem: String, notes: String, password: String, strength: String, context: NSManagedObjectContext) {
         vault.loginItem = loginItem
         vault.notes = notes
         vault.password = password
+        vault.passwordStrength = strength
         
         save(context: context)
     }

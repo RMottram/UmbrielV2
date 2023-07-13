@@ -52,7 +52,7 @@
 /* Begin PBXFileReference section */
 		35A9AA042A5C8FBD00940AB2 /* EditVaultEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVaultEntryView.swift; sourceTree = "<group>"; };
 		35F02C5A2A5DE83600FC2396 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		35F02C5C2A5E026900FC2396 /* CustomColoursExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomColoursExtension.swift; path = Umbriel/CustomColoursExtension.swift; sourceTree = "<group>"; };
+		35F02C5C2A5E026900FC2396 /* CustomColoursExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColoursExtension.swift; sourceTree = "<group>"; };
 		943FC4C22A50173700763340 /* Vault.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Vault.xcdatamodel; sourceTree = "<group>"; };
 		943FC4C42A5018D700763340 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		94577C982A58A4C20086F0F5 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -124,7 +124,6 @@
 		94C9AEB02A4F6F6100E327A4 = {
 			isa = PBXGroup;
 			children = (
-				35F02C5C2A5E026900FC2396 /* CustomColoursExtension.swift */,
 				94C9AEBB2A4F6F6100E327A4 /* Umbriel */,
 				94C9AED12A4F6F6300E327A4 /* UmbrielTests */,
 				94C9AEDB2A4F6F6300E327A4 /* UmbrielUITests */,
@@ -147,6 +146,7 @@
 			children = (
 				949575172A55E0CA00861E9E /* Views */,
 				94C9AEFB2A4F7A4D00E327A4 /* AppDelegate.swift */,
+				35F02C5C2A5E026900FC2396 /* CustomColoursExtension.swift */,
 				943FC4C12A50173700763340 /* Vault.xcdatamodeld */,
 				94C9AEC22A4F6F6300E327A4 /* Preview Content */,
 				94C9AEC02A4F6F6300E327A4 /* Assets.xcassets */,

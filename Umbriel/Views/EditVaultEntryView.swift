@@ -14,25 +14,26 @@ struct EditVaultEntryView: View {
     
     var password: FetchedResults<Vault>.Element
     var hapticGen = Haptics()
+    var passwordTester = PasswordLogic()
     
     @State var loginItem:String = ""
     @State var passwordEntry:String = ""
     @State var note:String = ""
+    @State var strength:String = ""
+    @State var strengthVerdict:String = ""
     @State var isLoginCopied:Bool = false
     @State var copiedString:String = ""
     @State var isHidden:Bool = true
-    
-    @State private var weakRed:Double = 255
-    @State private var weakGreen:Double = 101
-    @State private var weakBlue:Double = 101
-    @State private var strongRed:Double = 117
-    @State private var strongGreen:Double = 211
-    @State private var strongBlue:Double = 99
+    @State var isBlank:Bool = false
+    @State var isWeak:Bool = false
+    @State var isAverage:Bool = false
+    @State var isStrong:Bool = true
+    @State var isVStrong:Bool = false
     
     var body: some View {
         
         Form {
-            Section(header: Text("Edit desired details for \(password.title!)").font(.system(size: 12, design: .rounded))) {
+            Section {
                 TextField("\(password.loginItem!)", text: $loginItem).font(.system(.body, design: .rounded))
                     .onAppear {
                         loginItem = password.loginItem!
@@ -55,18 +56,36 @@ struct EditVaultEntryView: View {
                         })
                         {
                             Image(systemName: isHidden ? "eye.slash.fill" : "eye.fill")
-                                .foregroundColor((self.isHidden == false ) ? Color.init(red: strongRed/255, green: strongGreen/255, blue: strongBlue/255) : (Color.init(red: weakRed/255, green: weakGreen/255, blue: weakBlue/255)))
+                                .foregroundColor((self.isHidden == false ) ? .strongColour : (.weakColour))
                         }
                     }
                 }
                 TextField("\(password.notes!)", text: $note).font(.system(.body, design: .rounded))
                     .disableAutocorrection(false)
+            } header: {
+                Text("Edit desired details for \(password.title!)")
+                    .font(.system(size: 12, design: .rounded))
+            } footer: {
+                Group {
+                    Text("Password is ")
+                        .font(.system(.body, design: .rounded)) +
+                    Text("\(password.passwordStrength!)")
+                        .fontWeight(Font.Weight.bold)
+                        .font(.system(.body, design: .rounded))
+                        .foregroundColor(getColor(for: password.passwordStrength!))
+                }
             }
             
             Section(header: Text("\(copiedString)").font(.system(size: 12, design: .rounded))) {
                 Button(action: {
+                    TestPass()
                     self.hapticGen.simpleSuccess()
-                    DataController().editVaultEntry(vault: password, loginItem: loginItem, notes: note, password: passwordEntry, context: managedObjectContext)
+                    DataController().editVaultEntry(vault: password,
+                                                    loginItem: loginItem,
+                                                    notes: note,
+                                                    password: passwordEntry,
+                                                    strength: strengthVerdict,
+                                                    context: managedObjectContext)
                     self.presentationMode.wrappedValue.dismiss()
                 })
                 {
@@ -110,6 +129,43 @@ struct EditVaultEntryView: View {
             
         }
     }
+    
+    private func TestPass() {
+        
+        switch self.passwordTester.TestStrength(password: passwordEntry)
+        {
+            case .Blank:
+                self.isBlank = true
+            case .Weak:
+                self.isWeak = true
+            strengthVerdict = "Weak"
+            case .Average:
+                self.isAverage = true
+            strengthVerdict = "Average"
+            case .Strong:
+                self.isStrong = true
+            strengthVerdict = "Strong"
+            case .VeryStrong:
+                self.isVStrong = true
+            strengthVerdict = "Very Strong"
+        }
+    }
+    
+    func getColor(for verdict: String) -> Color {
+        switch verdict {
+        case "Weak":
+            return .weakColour
+        case "Average":
+            return .averageColour
+        case "Strong":
+            return .strongColour
+        case "Very Strong":
+            return .vStrongColour
+        default:
+            return .pink
+        }
+    }
+    
 }
 
 //struct EditVaultEntryView_Preview: PreviewProvider {
