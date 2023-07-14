@@ -199,7 +199,7 @@ class PasswordLogic
         }
     }
     
-    enum StrengthScore: Int
+    enum StrengthScore: Double
     {
         case Blank = 0
         case Weak = 2

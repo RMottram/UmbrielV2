@@ -20,7 +20,7 @@ struct NotificationBannerView: View {
         .padding()
         .foregroundColor(.white)
         .frame(width: UIScreen.main.bounds.width/1.2, height: 30)
-        .background(Color.init(red: 58/255, green: 146/255, blue: 236/255))
+        .background(Color.standbyColour)
         .cornerRadius(10)
         
     }

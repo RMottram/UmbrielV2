@@ -14,37 +14,17 @@ struct WaveView: View {
     @Binding var baselineAdjustment:CGFloat
     @Binding var amplitudeAdjustment:CGFloat
     @Binding var animationDuration:Double
-    @Binding var red:Double
-    @Binding var green:Double
-    @Binding var blue:Double
+    @Binding var waveColour: Color
     @Binding var opacity:Double
-    
-    let universalSize = UIScreen.main.bounds
     
     var body: some View {
         
-        // MARK: Wave Configuration
-        ZStack {
-            Wave(interval: universalSize.width, amplitude: amplitudeAdjustment, baseline: universalSize.height/baselineAdjustment)
-                .foregroundColor(Color.init(red: red/255, green: green/255, blue: blue/255, opacity: opacity))
-                .offset(x: isAnimated ? -1 * universalSize.width : 0)
-                .animation(Animation.linear(duration: animationDuration + 2).repeatForever(autoreverses: false))
-            
-            Wave(interval: universalSize.width * 2, amplitude: amplitudeAdjustment - 20, baseline: universalSize.height/baselineAdjustment)
-                .foregroundColor(Color.init(red: red/255, green: green/255, blue: blue/255, opacity: opacity + 0.2))
-                .offset(x: isAnimated ? -1 * (universalSize.width * 2) : 0)
-                .animation(Animation.linear(duration: animationDuration).repeatForever(autoreverses: false))
-            
-            Wave(interval: universalSize.width * 4, amplitude: amplitudeAdjustment - 40, baseline: 40 + universalSize.height/baselineAdjustment)
-                .foregroundColor(Color.init(red: red/255, green: green/255, blue: blue/255, opacity: opacity + 0.4))
-                .offset(x: isAnimated ? -1 * (universalSize.width * 4) : 0)
-                .animation(Animation.linear(duration: animationDuration).repeatForever(autoreverses: false))
-            
-        }.onAppear() {
-            print("WaveView appears")
-            self.isAnimated = true
-            
-        }
+        Waves(isAnimated: isAnimated,
+              baselineAdjustment: $baselineAdjustment,
+              amplitudeAdjustment: $amplitudeAdjustment,
+              animationDuration: $animationDuration,
+              waveColour: $waveColour,
+              opacity: $opacity)
     }
 }
 
@@ -65,12 +45,49 @@ func Wave(interval: CGFloat, amplitude: CGFloat = 100, baseline: CGFloat = UIScr
     }
 }
 
+struct Waves: View {
+    
+    @State var isAnimated:Bool = false
+    @Binding var baselineAdjustment:CGFloat
+    @Binding var amplitudeAdjustment:CGFloat
+    @Binding var animationDuration:Double
+    @Binding var waveColour: Color
+    @Binding var opacity:Double
+    
+    let universalSize = UIScreen.main.bounds
+    var body: some View {
+        ZStack {
+            // close
+            Wave(interval: universalSize.width, amplitude: amplitudeAdjustment, baseline: universalSize.height/baselineAdjustment)
+                .foregroundColor(waveColour.opacity(opacity))
+                .offset(x: isAnimated ? -1 * universalSize.width : 0)
+                .animation(Animation.linear(duration: animationDuration + 2).repeatForever(autoreverses: false))
+            
+            Wave(interval: universalSize.width * 2, amplitude: amplitudeAdjustment - 20, baseline: universalSize.height/baselineAdjustment)
+                .foregroundColor(waveColour.opacity(opacity + 0.2))
+                .offset(x: isAnimated ? -1 * (universalSize.width * 2) : 0)
+                .animation(Animation.linear(duration: animationDuration).repeatForever(autoreverses: false))
+            
+            // far
+            Wave(interval: universalSize.width * 4, amplitude: amplitudeAdjustment - 40, baseline: 40 + universalSize.height/baselineAdjustment)
+                .foregroundColor(waveColour.opacity(opacity + 0.4))
+                .offset(x: isAnimated ? -1 * (universalSize.width * 4) : 0)
+                .animation(Animation.linear(duration: animationDuration).repeatForever(autoreverses: false))
+            
+        }
+        .onAppear {
+            isAnimated = true
+        }
+        .ignoresSafeArea(.keyboard)
+    }
+}
+
 struct WaveView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             // tufts blue - 7
             WaveView(baselineAdjustment: Binding.constant(3), amplitudeAdjustment: Binding.constant(100), animationDuration: Binding.constant(4),
-                     red: Binding.constant(58), green: Binding.constant(146), blue: Binding.constant(236), opacity: Binding.constant(0.4))
+                     waveColour: .constant(.standbyColour), opacity: Binding.constant(0.4))
         }
     }
 }

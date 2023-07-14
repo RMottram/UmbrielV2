@@ -14,9 +14,9 @@ struct OnboardingView: View {
     var body: some View {
         TabView {
             
-            OnboardPageView(title: "Welcome to Umbriel! 🙋🏻‍♂️", message: "A modern password manager, with a modern and fluid UI!", imageName: "house.lodge.fill", imageColour: .standbyColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
+            OnboardPageView(title: "Welcome to Umbriel! 🙋🏻‍♂️", message: "A modern password manager, with a modern and fluid UI!", imageName: "figure.wave", imageColour: .standbyColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
             
-            OnboardPageView(title: "A test of strength! 💪🏼", message: "Test the strength of a password using the wave animations as a sign of its strength. Use the password tips to improve where needed!", imageName: "figure.strengthtraining.traditional", imageColour: .weakColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
+            OnboardPageView(title: "A test of strength! 💪🏼", message: "Test the strength of a password using the colour of the wave animations as a sign of its strength!", imageName: "figure.strengthtraining.traditional", imageColour: .weakColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
             
             OnboardPageView(title: "Can't think? 🤔", message: "Use the password generator to create a password for you! Customise the length, use of symbols and numbers to get the right password for you!", imageName: "wand.and.stars", imageColour: .vStrongColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
             

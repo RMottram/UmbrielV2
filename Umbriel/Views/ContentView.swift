@@ -28,40 +28,17 @@ struct ContentView: View {
     @State private var isStrong = false
     @State private var isVeryStrong = false
     
-    // used to show ad
-    @State private var passwordTestCounter = 0
+    @State private var standby = Color.standbyColour
+    @State private var weak = Color.weakColour
+    @State private var average = Color.averageColour
+    @State private var strong = Color.strongColour
+    @State private var vStrong = Color.vStrongColour
+    @State private var opacity:Double = 0.2
     
     // wave properties
-    @State private var baseline:CGFloat = UIScreen.main.bounds.height/50
-    @State private var amplitude:CGFloat = 50
-    @State private var animationDuration:Double = 6
-    
-    // weak
-    @State private var weakRed:Double = 255
-    @State private var weakGreen:Double = 101
-    @State private var weakBlue:Double = 101
-    
-    // average
-    @State private var avgRed:Double = 255
-    @State private var avgGreen:Double = 190
-    @State private var avgBlue:Double = 101
-    
-    // strong
-    @State private var strongRed:Double = 117
-    @State private var strongGreen:Double = 211
-    @State private var strongBlue:Double = 99
-    
-    // very strong
-    @State private var vstrongRed:Double = 127
-    @State private var vstrongGreen:Double = 73
-    @State private var vstrongBlue:Double = 255
-    
-    // standby
-    @State private var stbRed:Double = 58
-    @State private var stbGreen:Double = 146
-    @State private var stbBlue:Double = 236
-    
-    @State private var opacity:Double = 0.2
+    @State private var baseline:CGFloat = UIScreen.main.bounds.height/100
+    @State private var amplitude:CGFloat = 40
+    @State private var animationDuration:Double = 4
     
     var body: some View
     {
@@ -89,12 +66,14 @@ struct ContentView: View {
                     HStack {
                         Button(action: {
                             isInfoView.toggle()
-                            
+
                             // dismiss keyboard
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         })
                         {
-                            Image(systemName: "info.circle").font(.largeTitle).foregroundColor(Color.init(red: stbRed/255, green: stbGreen/255, blue: stbBlue/255))
+                            Image(systemName: "info.circle")
+                                .font(.largeTitle)
+                                .foregroundColor(.standbyColour)
                         }
                         .offset(x: 20, y: -50)
                     }
@@ -106,9 +85,9 @@ struct ContentView: View {
                     {
                         if self.isHidden
                         {
-                            SecureField("Enter Password...", text: self.$password, onCommit: { print("DEBUG: Go pressed"); self.TestPass()
+                            SecureField("Enter Password...", text: self.$password, onCommit: {
+                                self.TestPass()
                                 self.hapticGen.simpleSuccess()
-                                self.passwordTestCounter += 1
                             })
                             .padding(10)
                             .padding(.horizontal, 10).padding(.top, 20)
@@ -118,9 +97,9 @@ struct ContentView: View {
                             .keyboardType(.webSearch)
                         } else
                         {
-                            TextField("Enter Password...", text: self.$password, onCommit: { print("DEBUG: Go pressed"); self.TestPass()
+                            TextField("Enter Password...", text: self.$password, onCommit: {
+                                self.TestPass()
                                 self.hapticGen.simpleSuccess()
-                                self.passwordTestCounter += 1
                             })
                             .padding(10)
                             .padding(.horizontal, 10).padding(.top, 20)
@@ -130,14 +109,17 @@ struct ContentView: View {
                             .keyboardType(.webSearch)
                         }
                         
-                        Button(action: { self.isHidden.toggle(); self.TestPass(); self.passwordTestCounter += 1
+                        Button(action: {
+                            self.isHidden.toggle()
+                            self.TestPass()
                             self.hapticGen.simpleSelectionFeedback()
                         })
                         {
                             Image(systemName: self.isHidden ? "eye.slash.fill" : "eye.fill")
-                                .foregroundColor((self.isHidden == false ) ? Color.init(red: 117/255, green: 211/255, blue: 99/255) : (Color.init(red: 255/255, green: 101/255, blue: 101/255)))
+                                .foregroundColor(self.isHidden ? .weakColour : .strongColour)
                                 .padding(.top, 30)
                         }
+                        .ignoresSafeArea(.all)
                         Button(action: {
                             self.hapticGen.simpleSelectionFeedback()
                             self.TestPass()
@@ -152,7 +134,7 @@ struct ContentView: View {
                         })
                         {
                             Image(systemName: "doc.on.clipboard")
-                                .foregroundColor(Color.init(red: stbRed/255, green: stbGreen/255, blue: stbBlue/255))
+                                .foregroundColor(.standbyColour)
                                 .padding(.top, 30).padding(.trailing, 25)
                             
                         }
@@ -168,59 +150,28 @@ struct ContentView: View {
                 {
                     if isWeak
                     {
-                        WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, red: $weakRed, green: $weakGreen, blue: $weakBlue, opacity: $opacity)
-                        
-                        Text("Password is too weak. Try make your password 6 characters minimum!")
-                            .font(.system(size: 25, design: .rounded))
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 20)
-                            .animation(.easeInOut(duration: 1.2))
-                            .transition(AnyTransition.move(edge: .top).combined(with: .opacity))
+                        WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, waveColour: $weak, opacity: $opacity)
                     }
                     if isAverage
                     {
-                        WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, red: $avgRed, green: $avgGreen, blue: $avgBlue, opacity: $opacity)
-                        
-                        Text("Your password is average, try mix upper, lower case letters, numbers and special symbols!")
-                            .font(.system(size: 25, design: .rounded))
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 20)
-                            .animation(.easeInOut(duration: 1.2))
-                            .transition(AnyTransition.move(edge: .top).combined(with: .opacity))
-                        
+                        WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, waveColour: $average, opacity: $opacity)
                     }
                     if isStrong
                     {
-                        WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, red: $strongRed, green: $strongGreen, blue: $strongBlue, opacity: $opacity)
-                        
-                        Text("Your password is strong but can be stronger. Try and incorporate more of what you already have done!")
-                            .font(.system(size: 25, design: .rounded))
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 20)
-                            .animation(.easeInOut(duration: 1.2))
-                            .transition(AnyTransition.move(edge: .top).combined(with: .opacity))
-                        
+                        WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, waveColour: $strong, opacity: $opacity)
                     }
                     if isVeryStrong
                     {
-                        WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, red: $vstrongRed, green: $vstrongGreen, blue: $vstrongBlue, opacity: $opacity)
-                        
-                        Text("Well Done, This password is very strong!")
-                            .font(.system(size: 25, design: .rounded))
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 20)
-                            .animation(.easeInOut(duration: 1.2))
-                            .transition(AnyTransition.move(edge: .top).combined(with: .opacity))
-                        
+                        WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, waveColour: $vStrong, opacity: $opacity)
                     }
                     if isStandby
                     {
-                        WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, red: $stbRed, green: $stbGreen, blue: $stbBlue, opacity: $opacity)
+                        WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, waveColour: $standby, opacity: $opacity)
                     }
                 }.padding(.top, 40)
             }
             .tabItem {
-                Image(systemName: "checkmark.shield")
+                Image(systemName: "figure.strengthtraining.traditional")
                 Text("Strength Tester")
             }.tag(0)
             

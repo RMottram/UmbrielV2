@@ -106,6 +106,7 @@ struct TheVaultView: View {
                     
                     Image(systemName: "lock.shield")
                         .font(.system(size: 100))
+                        .foregroundColor(.strongColour)
                     
                     Text("TheVault requires the use of your devices' TouchID or FaceID sensors to be used. If these have not been activated please activate them in your devices settings.")
                         .multilineTextAlignment(.center)

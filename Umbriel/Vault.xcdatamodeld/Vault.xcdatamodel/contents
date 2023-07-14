@@ -7,6 +7,7 @@
         <attribute name="notes" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="passwordStrength" optional="YES" attributeType="String"/>
+        <attribute name="strengthScore" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
 </model>
