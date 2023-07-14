@@ -21,6 +21,7 @@ struct EditVaultEntryView: View {
     @State var note:String = ""
     @State var strength:String = ""
     @State var strengthVerdict:String = ""
+    @State var strengthScore:Double = 0.0
     @State var isLoginCopied:Bool = false
     @State var copiedString:String = ""
     @State var isHidden:Bool = true
@@ -39,6 +40,9 @@ struct EditVaultEntryView: View {
                         loginItem = password.loginItem!
                         passwordEntry = password.password!
                         note = password.notes!
+                        strengthScore = password.strengthScore
+                        print("password.strengthScore - \(password.strengthScore)")
+                        print("strengthScore - \(strengthScore)")
                     }
                     .disableAutocorrection(true)
                     .autocapitalization(.none)
@@ -79,12 +83,14 @@ struct EditVaultEntryView: View {
             Section(header: Text("\(copiedString)").font(.system(size: 12, design: .rounded))) {
                 Button(action: {
                     TestPass()
+                    let score = passwordTester.TestStrength(password: passwordEntry)
                     self.hapticGen.simpleSuccess()
                     DataController().editVaultEntry(vault: password,
                                                     loginItem: loginItem,
                                                     notes: note,
                                                     password: passwordEntry,
                                                     strength: strengthVerdict,
+                                                    strengthScore: score.rawValue,
                                                     context: managedObjectContext)
                     self.presentationMode.wrappedValue.dismiss()
                 })
@@ -117,7 +123,7 @@ struct EditVaultEntryView: View {
                     {
                         withAnimation { copiedString = "Password Copied!" }
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3)
                     {
                         withAnimation { copiedString = "" }
                     }
@@ -126,8 +132,29 @@ struct EditVaultEntryView: View {
                     Text("Copy Password").font(.system(.body, design: .rounded))
                 }
             }
-            
         }
+        .overlay(
+            VStack {
+                Spacer()
+                if #available(iOS 16.0, *) {
+                    Spacer()
+                    Gauge(value: password.strengthScore, in: 0...10) {
+                    } currentValueLabel: {
+                        Text(String(format: "%.0f", password.strengthScore))
+                    } minimumValueLabel: {
+                        Text("0")
+                    } maximumValueLabel: {
+                        Text("10")
+                    }
+                    .gaugeStyle(.accessoryCircular)
+                    .tint(Gradient(colors: [.weakColour, .averageColour, .strongColour, .vStrongColour]))
+                } else {
+                    // Fallback on earlier versions
+                }
+                Spacer()
+            }.offset(y:20)
+        )
+        .ignoresSafeArea(.keyboard)
     }
     
     private func TestPass() {

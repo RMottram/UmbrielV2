@@ -64,12 +64,13 @@ struct AddNewPasswordView: View {
                     } else {
                         TestPass()
                         self.hapticGen.simpleSuccess()
-                        passwordStrength.TestStrength(password: passwordEntry)
+                        var score = passwordStrength.TestStrength(password: passwordEntry)
                         DataController().addVaultEntry(password: passwordEntry,
                                                        title: passwordTitle,
                                                        loginItem: loginItem,
                                                        notes: "\(passwordTitle) notes",
                                                        strength: strengthVerdict,
+                                                       strengthScore: score.rawValue,
                                                        context: context)
                         
                         presentationMode.wrappedValue.dismiss()
