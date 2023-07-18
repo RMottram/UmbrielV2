@@ -24,6 +24,7 @@ struct EditVaultEntryView: View {
     @State var strengthScore:Double = 0.0
     @State var isLoginCopied:Bool = false
     @State var copiedString:String = ""
+    @State var isAnyInfoMissing:Bool = false
     @State var isHidden:Bool = true
     @State var isBlank:Bool = false
     @State var isWeak:Bool = false
@@ -34,19 +35,23 @@ struct EditVaultEntryView: View {
     var body: some View {
         
         Form {
+            Section(header: Text("Login")
+                .font(.system(size: 12, design: .rounded))) {
+                    TextField("\(password.loginItem!)", text: $loginItem).font(.system(.body, design: .rounded))
+                        .onAppear {
+                            loginItem = password.loginItem!
+                            passwordEntry = password.password!
+                            note = password.notes!
+                            strengthScore = password.strengthScore
+                            print("password.strengthScore - \(password.strengthScore)")
+                            print("strengthScore - \(strengthScore)")
+                        }
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                        .keyboardType(.emailAddress)
+                }
+            
             Section {
-                TextField("\(password.loginItem!)", text: $loginItem).font(.system(.body, design: .rounded))
-                    .onAppear {
-                        loginItem = password.loginItem!
-                        passwordEntry = password.password!
-                        note = password.notes!
-                        strengthScore = password.strengthScore
-                        print("password.strengthScore - \(password.strengthScore)")
-                        print("strengthScore - \(strengthScore)")
-                    }
-                    .disableAutocorrection(true)
-                    .autocapitalization(.none)
-                    .keyboardType(.emailAddress)
                 ZStack {
                     HStack {
                         TextField("\(password.password!)", text: $passwordEntry).font(.system(.body, design: .rounded))
@@ -64,40 +69,67 @@ struct EditVaultEntryView: View {
                         }
                     }
                 }
-                TextField("\(password.notes!)", text: $note).font(.system(.body, design: .rounded))
-                    .disableAutocorrection(false)
             } header: {
-                Text("Edit desired details for \(password.title!)")
+                Text("Password")
                     .font(.system(size: 12, design: .rounded))
             } footer: {
                 Group {
                     Text("Password is ")
-                        .font(.system(.body, design: .rounded)) +
+                        .font(.system(size: 14, design: .rounded)) +
                     Text("\(password.passwordStrength!)")
                         .fontWeight(Font.Weight.bold)
-                        .font(.system(.body, design: .rounded))
+                        .font(.system(size: 14, design: .rounded))
                         .foregroundColor(getColor(for: password.passwordStrength!))
                 }
             }
+            if #available(iOS 16.0, *) {
+                Section {
+                    HStack {
+                        Spacer()
+                        Gauge(value: password.strengthScore, in: 0...10) {
+                        } currentValueLabel: {
+                            Text(String(format: "%.0f", password.strengthScore))
+                        } minimumValueLabel: {
+                            Text("0")
+                        } maximumValueLabel: {
+                            Text("10")
+                        }
+                        .scaleEffect(1.2)
+                        .gaugeStyle(.accessoryCircular)
+                        .tint(Gradient(colors: [.weakColour, .averageColour, .strongColour, .vStrongColour]))
+                        Spacer()
+                    }
+                }
+            }
+            
+            Section(header: Text("Notes")
+                .font(.system(size: 12, design: .rounded))) {
+                    TextField("\(password.notes!)", text: $note).font(.system(.body, design: .rounded))
+                        .disableAutocorrection(false)
+                }
+            
             
             Section(header: Text("\(copiedString)").font(.system(size: 12, design: .rounded))) {
-                Button(action: {
-                    TestPass()
-                    let score = passwordTester.TestStrength(password: passwordEntry)
-                    self.hapticGen.simpleSuccess()
-                    DataController().editVaultEntry(vault: password,
-                                                    loginItem: loginItem,
-                                                    notes: note,
-                                                    password: passwordEntry,
-                                                    strength: strengthVerdict,
-                                                    strengthScore: score.rawValue,
-                                                    context: managedObjectContext)
-                    self.presentationMode.wrappedValue.dismiss()
-                })
-                {
-                    Text("Save").font(.system(.body, design: .rounded))
-                }
-                Button(action: {
+                Button("Save") {
+                    if loginItem.isEmpty || passwordEntry.isEmpty {
+                        isAnyInfoMissing = true
+                        hapticGen.simpleError()
+                    } else {
+                        TestPass()
+                        let score = passwordTester.TestStrength(password: passwordEntry)
+                        self.hapticGen.simpleSuccess()
+                        DataController().editVaultEntry(vault: password,
+                                                        loginItem: loginItem,
+                                                        notes: note,
+                                                        password: passwordEntry,
+                                                        strength: strengthVerdict,
+                                                        strengthScore: score.rawValue,
+                                                        context: managedObjectContext)
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                }.font(.system(.body, design: .rounded))
+                
+                Button("Copy Login") {
                     self.hapticGen.simpleSelectionFeedback()
                     isLoginCopied = true
                     UIPasteboard.general.string = self.password.loginItem
@@ -111,11 +143,9 @@ struct EditVaultEntryView: View {
                         withAnimation { copiedString = "" }
                     }
                     
-                })
-                {
-                    Text("Copy Login").font(.system(.body, design: .rounded))
-                }
-                Button(action: {
+                }.font(.system(.body, design: .rounded))
+                
+                Button("Copy Password") {
                     self.hapticGen.simpleSelectionFeedback()
                     UIPasteboard.general.string = self.password.password
                     
@@ -127,53 +157,55 @@ struct EditVaultEntryView: View {
                     {
                         withAnimation { copiedString = "" }
                     }
-                })
-                {
-                    Text("Copy Password").font(.system(.body, design: .rounded))
-                }
+                }.font(.system(.body, design: .rounded))
+            }
+            .alert(isPresented: $isAnyInfoMissing) {
+                Alert(title: Text("Missing Information"), message: Text("One or more required fields were left blank, please ensure to enter all required information"),
+                      dismissButton: .default(Text("OK")))
             }
         }
-        .overlay(
-            VStack {
-                Spacer()
-                if #available(iOS 16.0, *) {
-                    Spacer()
-                    Gauge(value: password.strengthScore, in: 0...10) {
-                    } currentValueLabel: {
-                        Text(String(format: "%.0f", password.strengthScore))
-                    } minimumValueLabel: {
-                        Text("0")
-                    } maximumValueLabel: {
-                        Text("10")
-                    }
-                    .gaugeStyle(.accessoryCircular)
-                    .tint(Gradient(colors: [.weakColour, .averageColour, .strongColour, .vStrongColour]))
-                } else {
-                    // Fallback on earlier versions
-                }
-                Spacer()
-            }.offset(y:20)
-        )
-        .ignoresSafeArea(.keyboard)
     }
+    //        .overlay(
+    //            VStack {
+    //                Spacer()
+    //                if #available(iOS 16.0, *) {
+    //                    Spacer()
+    //                    Gauge(value: password.strengthScore, in: 0...10) {
+    //                    } currentValueLabel: {
+    //                        Text(String(format: "%.0f", password.strengthScore))
+    //                    } minimumValueLabel: {
+    //                        Text("0")
+    //                    } maximumValueLabel: {
+    //                        Text("10")
+    //                    }
+    //                    .gaugeStyle(.accessoryCircular)
+    //                    .tint(Gradient(colors: [.weakColour, .averageColour, .strongColour, .vStrongColour]))
+    //                } else {
+    //                    // Fallback on earlier versions
+    //                }
+    //                Spacer()
+    //            }.offset(y:20)
+    //        )
+    //        .ignoresSafeArea(.keyboard)
+    //    }
     
     private func TestPass() {
         
         switch self.passwordTester.TestStrength(password: passwordEntry)
         {
-            case .Blank:
-                self.isBlank = true
-            case .Weak:
-                self.isWeak = true
+        case .Blank:
+            self.isBlank = true
+        case .Weak:
+            self.isWeak = true
             strengthVerdict = "Weak"
-            case .Average:
-                self.isAverage = true
+        case .Average:
+            self.isAverage = true
             strengthVerdict = "Average"
-            case .Strong:
-                self.isStrong = true
+        case .Strong:
+            self.isStrong = true
             strengthVerdict = "Strong"
-            case .VeryStrong:
-                self.isVStrong = true
+        case .VeryStrong:
+            self.isVStrong = true
             strengthVerdict = "Very Strong"
         }
     }

@@ -69,7 +69,7 @@ struct TheVaultView: View {
                     }
                     
                     // MARK: NavBar Items
-                    .navigationTitle("TheVault")
+                    .navigationBarTitle("TheVault", displayMode: .inline)
                     .navigationBarItems(leading: EditButton(), trailing:
                                             HStack {
                         Button(action: {

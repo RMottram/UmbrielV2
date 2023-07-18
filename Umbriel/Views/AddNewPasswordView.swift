@@ -32,39 +32,41 @@ struct AddNewPasswordView: View {
     
     var body: some View {
         
-        Form {
-            Section {
-                VStack {
-                    // MARK: Password Entry Details
-                    TextField("*Password Description", text: $passwordTitle)
-                        .font(.system(.body, design: .rounded))
-                        .autocapitalization(.words)
-                        .disableAutocorrection(false)
-                    
-                    
+        NavigationView {
+            Form {
+                Section {
+                    VStack {
+                        // MARK: Password Entry Details
+                        TextField("*Password Description", text: $passwordTitle)
+                            .font(.system(.body, design: .rounded))
+                            .autocapitalization(.words)
+                            .disableAutocorrection(false)
+                    }
+                }
+                
+                Section {
                     TextField("*Login Item", text: $loginItem)
                         .font(.system(.body, design: .rounded))
                         .disableAutocorrection(true)
                         .autocapitalization(.none)
                         .keyboardType(.emailAddress)
-                    
-                    TextField("*Password", text: $passwordEntry)
-                    .font(.system(.body, design: .rounded))
-                    .disableAutocorrection(true)
-                    .autocapitalization(.none)
-                    
                 }
-            }
-            HStack {
-                Spacer()
+                
+                Section {
+                    TextField("*Password", text: $passwordEntry)
+                        .font(.system(.body, design: .rounded))
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                }
+                
                 Button("Submit") {
-                    if self.passwordTitle == "" || self.passwordEntry == "" || self.loginItem == "" {
+                    if self.passwordTitle.isEmpty || self.passwordEntry.isEmpty || self.loginItem.isEmpty {
                         self.isAnyInfoMissing = true
                         self.hapticGen.simpleError()
                     } else {
                         TestPass()
                         self.hapticGen.simpleSuccess()
-                        var score = passwordStrength.TestStrength(password: passwordEntry)
+                        let score = passwordStrength.TestStrength(password: passwordEntry)
                         DataController().addVaultEntry(password: passwordEntry,
                                                        title: passwordTitle,
                                                        loginItem: loginItem,
@@ -75,39 +77,39 @@ struct AddNewPasswordView: View {
                         
                         presentationMode.wrappedValue.dismiss()
                     }
-                }
-                .alert(isPresented: self.$isAnyInfoMissing) {
-                    Alert(title: Text("Missing Information"), message: Text("One or more required fields were left blank, please ensure to enter all required information"),
-                          dismissButton: .default(Text("OK")))
-                }
-                Spacer()
+                }.font(.system(.body, design: .rounded))
+                    .alert(isPresented: self.$isAnyInfoMissing) {
+                        Alert(title: Text("Missing Information"), message: Text("One or more required fields were left blank, please ensure to enter all required information"),
+                              dismissButton: .default(Text("OK")))
+                    }
             }
+            .navigationBarTitle("Enter Password Details", displayMode: .inline)
         }
         
     }
     
     private func dismiss() {
-            isSheetPresented = false
-            presentationMode.wrappedValue.dismiss()
-        }
+        isSheetPresented = false
+        presentationMode.wrappedValue.dismiss()
+    }
     
     private func TestPass() {
         
         switch self.passwordStrength.TestStrength(password: passwordEntry)
         {
-            case .Blank:
-                self.isBlank = true
-            case .Weak:
-                self.isWeak = true
+        case .Blank:
+            self.isBlank = true
+        case .Weak:
+            self.isWeak = true
             strengthVerdict = "Weak"
-            case .Average:
-                self.isAverage = true
+        case .Average:
+            self.isAverage = true
             strengthVerdict = "Average"
-            case .Strong:
-                self.isStrong = true
+        case .Strong:
+            self.isStrong = true
             strengthVerdict = "Strong"
-            case .VeryStrong:
-                self.isVeryStrong = true
+        case .VeryStrong:
+            self.isVeryStrong = true
             strengthVerdict = "Very Strong"
         }
     }

@@ -38,17 +38,15 @@ struct ContentView: View {
     // wave properties
     @State private var baseline:CGFloat = UIScreen.main.bounds.height/100
     @State private var amplitude:CGFloat = 40
-    @State private var animationDuration:Double = 4
+    @State private var animationDuration:Double = 6
     
-    var body: some View
-    {
+    var body: some View {
         
-        TabView(selection: $selectedTab)
-        {
+        
+        TabView(selection: $selectedTab) {
             
             // MARK: Text Fields and Buttons
-            VStack
-            {
+            VStack {
                 NotificationBannerView()
                     .offset(x: self.showCopyNote ? UIScreen.main.bounds.width/3 : UIScreen.main.bounds.width)
                     .animation(.interpolatingSpring(mass: 1, stiffness: 80, damping: 10, initialVelocity: 1))
@@ -61,88 +59,41 @@ struct ContentView: View {
                         self.showCopyNote = false
                     })
                 
-                ZStack(alignment: .leading) {
+                HStack
+                {
+                    TextField("Enter Password...", text: self.$password, onCommit: {
+                        self.TestPass()
+                        self.hapticGen.simpleSuccess()
+                    })
+                    .padding()
+                    .padding(.horizontal, 10)
+                    .font(.system(.title, design: .rounded))
+                    .foregroundColor(.secondary.opacity(0.5))
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
+                    .keyboardType(.webSearch)
                     
-                    HStack {
-                        Button(action: {
-                            isInfoView.toggle()
-
-                            // dismiss keyboard
-                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                        })
+                    Button(action: {
+                        self.hapticGen.simpleSelectionFeedback()
+                        self.TestPass()
+                        UIPasteboard.general.string = self.password
+                        self.showCopyNote = true
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 4)
                         {
-                            Image(systemName: "info.circle")
-                                .font(.largeTitle)
-                                .foregroundColor(.standbyColour)
-                        }
-                        .offset(x: 20, y: -50)
-                    }
-                    .sheet(isPresented: $isInfoView) {
-                        InfoView()
-                    }
-                    
-                    HStack
-                    {
-                        if self.isHidden
-                        {
-                            SecureField("Enter Password...", text: self.$password, onCommit: {
-                                self.TestPass()
-                                self.hapticGen.simpleSuccess()
-                            })
-                            .padding(10)
-                            .padding(.horizontal, 10).padding(.top, 20)
-                            .font(.system(size: 20, design: .rounded))
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-                            .keyboardType(.webSearch)
-                        } else
-                        {
-                            TextField("Enter Password...", text: self.$password, onCommit: {
-                                self.TestPass()
-                                self.hapticGen.simpleSuccess()
-                            })
-                            .padding(10)
-                            .padding(.horizontal, 10).padding(.top, 20)
-                            .font(.system(size: 20, design: .rounded))
-                            .disableAutocorrection(true)
-                            .autocapitalization(.none)
-                            .keyboardType(.webSearch)
+                            withAnimation { self.showCopyNote = false }
                         }
                         
-                        Button(action: {
-                            self.isHidden.toggle()
-                            self.TestPass()
-                            self.hapticGen.simpleSelectionFeedback()
-                        })
-                        {
-                            Image(systemName: self.isHidden ? "eye.slash.fill" : "eye.fill")
-                                .foregroundColor(self.isHidden ? .weakColour : .strongColour)
-                                .padding(.top, 30)
-                        }
-                        .ignoresSafeArea(.all)
-                        Button(action: {
-                            self.hapticGen.simpleSelectionFeedback()
-                            self.TestPass()
-                            UIPasteboard.general.string = self.password
-                            self.showCopyNote = true
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 4)
-                            {
-                                withAnimation { self.showCopyNote = false }
-                            }
-                            
-                        })
-                        {
-                            Image(systemName: "doc.on.clipboard")
-                                .foregroundColor(.standbyColour)
-                                .padding(.top, 30).padding(.trailing, 25)
-                            
-                        }
-                    }.padding(.top, 100)
+                    })
+                    {
+                        Image(systemName: "doc.on.doc.fill")
+                            .resizable()
+                            .frame(width: 20, height: 25)
+                            .foregroundColor(.standbyColour)
+                    }
+                    .padding()
                 }
-                
-                Divider()
-                    .padding(.horizontal, 20)
+                .padding()
                 
                 // MARK: Wave Implementations
                 
@@ -151,27 +102,36 @@ struct ContentView: View {
                     if isWeak
                     {
                         WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, waveColour: $weak, opacity: $opacity)
+                            .clipShape(Rectangle())
                     }
                     if isAverage
                     {
                         WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, waveColour: $average, opacity: $opacity)
+                            .clipShape(Rectangle())
                     }
                     if isStrong
                     {
                         WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, waveColour: $strong, opacity: $opacity)
+                            .clipShape(Rectangle())
                     }
                     if isVeryStrong
                     {
                         WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, waveColour: $vStrong, opacity: $opacity)
+                            .clipShape(Rectangle())
                     }
                     if isStandby
                     {
                         WaveView(baselineAdjustment: $baseline, amplitudeAdjustment: $amplitude, animationDuration: $animationDuration, waveColour: $standby, opacity: $opacity)
+                            .clipShape(Rectangle())
                     }
                 }.padding(.top, 40)
             }
             .tabItem {
-                Image(systemName: "figure.strengthtraining.traditional")
+                if #available(iOS 16.0, *) {
+                    Image(systemName: "figure.strengthtraining.traditional")
+                } else {
+                    Image(systemName: "checkmark.shield.fill")
+                }
                 Text("Strength Tester")
             }.tag(0)
             
@@ -188,6 +148,7 @@ struct ContentView: View {
                 }.tag(2)
             
         }
+        .accentColor(tabBarColor(for: selectedTab))
         .fullScreenCover(isPresented: $shouldShowOnboarding) {
             OnboardingView(shouldShowOnboarding: $shouldShowOnboarding)
         }
@@ -198,40 +159,53 @@ struct ContentView: View {
     
     // MARK: ContentView Functions
     
+    private func tabBarColor(for tab: Int) -> Color {
+        switch tab {
+        case 0:
+            return .weakColour
+        case 1:
+            return .averageColour
+        case 2:
+            return .strongColour
+        default:
+            return .standbyColour
+        }
+    }
+    
     func TestPass() {
         
         switch self.passwordTester.TestStrength(password: self.password)
         {
-            case .Blank:
-                self.isStandby = true
-                self.isWeak = false
-                self.isAverage = false
-                self.isStrong = false
-                self.isVeryStrong = false
-            case .Weak:
-                self.isStandby = false
-                self.isWeak = true
-                self.isAverage = false
-                self.isStrong = false
-                self.isVeryStrong = false
-            case .Average:
-                self.isStandby = false
-                self.isWeak = false
-                self.isAverage = true
-                self.isStrong = false
-                self.isVeryStrong = false
-            case .Strong:
-                self.isStandby = false
-                self.isWeak = false
-                self.isAverage = false
-                self.isStrong = true
-                self.isVeryStrong = false
-            case .VeryStrong:
-                self.isStandby = false
-                self.isWeak = false
-                self.isAverage = false
-                self.isStrong = false
-                self.isVeryStrong = true
+        case .Blank:
+            self.isStandby = true
+            self.isWeak = false
+            self.isAverage = false
+            self.isStrong = false
+            self.isVeryStrong = false
+        case .Weak:
+            self.isStandby = false
+            self.isWeak = true
+            self.isAverage = false
+            self.isStrong = false
+            self.isVeryStrong = false
+        case .Average:
+            self.isStandby = false
+            self.isWeak = false
+            self.isAverage = true
+            self.isStrong = false
+            self.isVeryStrong = false
+        case .Strong:
+            self.isStandby = false
+            self.isWeak = false
+            self.isAverage = false
+            self.isStrong = true
+            self.isVeryStrong = false
+        case .VeryStrong:
+            self.isStandby = false
+            self.isWeak = false
+            self.isAverage = false
+            self.isStrong = false
+            self.isVeryStrong = true
         }
     }
 }
