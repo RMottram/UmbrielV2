@@ -16,6 +16,7 @@ struct AddNewPasswordView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State private var isAnyInfoMissing:Bool = false
+    @State private var passwordTooShort:Bool = false
     @State private var isSheetPresented:Bool = false
     @State var passwordTitle:String = ""
     @State var loginItem:String = ""
@@ -63,6 +64,9 @@ struct AddNewPasswordView: View {
                     if self.passwordTitle.isEmpty || self.passwordEntry.isEmpty || self.loginItem.isEmpty {
                         self.isAnyInfoMissing = true
                         self.hapticGen.simpleError()
+                    } else if self.passwordEntry.count < 4 {
+                        self.passwordTooShort = true
+                        self.hapticGen.simpleError()
                     } else {
                         TestPass()
                         self.hapticGen.simpleSuccess()
@@ -80,6 +84,10 @@ struct AddNewPasswordView: View {
                 }.font(.system(.body, design: .rounded))
                     .alert(isPresented: self.$isAnyInfoMissing) {
                         Alert(title: Text("Missing Information"), message: Text("One or more required fields were left blank, please ensure to enter all required information"),
+                              dismissButton: .default(Text("OK")))
+                    }
+                    .alert(isPresented: self.$passwordTooShort) {
+                        Alert(title: Text("Password Too Short"), message: Text("Please ensure your password is at least 4 characters long"),
                               dismissButton: .default(Text("OK")))
                     }
             }

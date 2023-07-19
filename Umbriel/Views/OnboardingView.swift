@@ -20,7 +20,7 @@ struct OnboardingView: View {
             
             OnboardPageView(title: "Can't think? 🤔", message: "Use the password generator to create a password for you! Customise the length, use of symbols and numbers to get the right password for you!", imageName: "wand.and.stars", imageColour: .vStrongColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
             
-            OnboardPageView(title: "Safe and sound! 🔐", message: "Keep your passwords at hand safely using the integrated Vault that encrypts the data and is locked behind your FaceID or TouchID credentials!", imageName: "lock.shield.fill", imageColour: .averageColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
+            OnboardPageView(title: "Safe and sound! 🔐", message: "Keep your passwords at hand safely using the integrated Vault that encrypts the data and is locked behind your FaceID or TouchID credentials!", imageName: "lock.shield.fill", imageColour: .moderateColour, isDismissButtonShowing: false, isSkipButtonShowing: true, shouldShowOnboarding: $shouldShowOnboarding)
             
             OnboardPageView(title: "That's all to it! 😊", message: "Come on in and start securing and protecting your data now!", imageName: "checkmark.shield.fill", imageColour: .strongColour, isDismissButtonShowing: true, isSkipButtonShowing: false, shouldShowOnboarding: $shouldShowOnboarding)
             
@@ -52,6 +52,7 @@ struct OnboardPageView: View {
             
             Text(title)
                 .font(.system(.largeTitle, design: .rounded))
+                .multilineTextAlignment(.center)
                 .padding()
             
             Text(message)
@@ -69,7 +70,7 @@ struct OnboardPageView: View {
                 .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.width/1.2)
                 .padding()
                 .foregroundColor(.white)
-                .background(Color.init(red: 58/255, green: 146/255, blue: 236/255))
+                .background(Color.standbyColour)
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
             if isSkipButtonShowing {

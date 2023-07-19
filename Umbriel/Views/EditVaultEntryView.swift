@@ -25,6 +25,7 @@ struct EditVaultEntryView: View {
     @State var isLoginCopied:Bool = false
     @State var copiedString:String = ""
     @State var isAnyInfoMissing:Bool = false
+    @State var passwordTooShort:Bool = false
     @State var isHidden:Bool = true
     @State var isBlank:Bool = false
     @State var isWeak:Bool = false
@@ -34,160 +35,130 @@ struct EditVaultEntryView: View {
     
     var body: some View {
         
-        Form {
-            Section(header: Text("Login")
-                .font(.system(size: 12, design: .rounded))) {
-                    TextField("\(password.loginItem!)", text: $loginItem).font(.system(.body, design: .rounded))
-                        .onAppear {
-                            loginItem = password.loginItem!
-                            passwordEntry = password.password!
-                            note = password.notes!
-                            strengthScore = password.strengthScore
-                            print("password.strengthScore - \(password.strengthScore)")
-                            print("strengthScore - \(strengthScore)")
-                        }
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
-                        .keyboardType(.emailAddress)
-                }
-            
-            Section {
-                ZStack {
-                    HStack {
-                        TextField("\(password.password!)", text: $passwordEntry).font(.system(.body, design: .rounded))
+        NavigationView {
+            Form {
+                Section(header: Text("Login")
+                    .font(.system(size: 12, design: .rounded))) {
+                        TextField("\(password.loginItem!)", text: $loginItem).font(.system(.body, design: .rounded))
+                            .onAppear {
+                                loginItem = password.loginItem!
+                                passwordEntry = password.password!
+                                note = password.notes!
+                                strengthScore = password.strengthScore
+                                print("password.strengthScore - \(password.strengthScore)")
+                                print("strengthScore - \(strengthScore)")
+                            }
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
-                            .blur(radius: isHidden ? 7 : 0)
-                            .onTapGesture { isHidden = false }
-                        Button(action: {
-                            self.hapticGen.simpleSelectionFeedback()
-                            isHidden.toggle()
-                        })
-                        {
-                            Image(systemName: isHidden ? "eye.slash.fill" : "eye.fill")
-                                .foregroundColor((self.isHidden == false ) ? .strongColour : (.weakColour))
-                        }
+                            .keyboardType(.emailAddress)
                     }
-                }
-            } header: {
-                Text("Password")
-                    .font(.system(size: 12, design: .rounded))
-            } footer: {
-                Group {
-                    Text("Password is ")
-                        .font(.system(size: 14, design: .rounded)) +
-                    Text("\(password.passwordStrength!)")
-                        .fontWeight(Font.Weight.bold)
-                        .font(.system(size: 14, design: .rounded))
-                        .foregroundColor(getColor(for: password.passwordStrength!))
-                }
-            }
-            if #available(iOS 16.0, *) {
+                
                 Section {
-                    HStack {
-                        Spacer()
-                        Gauge(value: password.strengthScore, in: 0...10) {
-                        } currentValueLabel: {
-                            Text(String(format: "%.0f", password.strengthScore))
-                        } minimumValueLabel: {
-                            Text("0")
-                        } maximumValueLabel: {
-                            Text("10")
+                    ZStack {
+                        HStack {
+                            TextField("\(password.password!)", text: $passwordEntry).font(.system(.body, design: .rounded))
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                                .blur(radius: isHidden ? 7 : 0)
+                                .onTapGesture { isHidden = false }
+                            Button(action: {
+                                self.hapticGen.simpleSelectionFeedback()
+                                isHidden.toggle()
+                            })
+                            {
+                                Image(systemName: isHidden ? "eye.slash.fill" : "eye.fill")
+                                    .foregroundColor((self.isHidden == false ) ? .strongColour : (.weakColour))
+                            }
                         }
-                        .scaleEffect(1.2)
-                        .gaugeStyle(.accessoryCircular)
-                        .tint(Gradient(colors: [.weakColour, .averageColour, .strongColour, .vStrongColour]))
-                        Spacer()
+                    }
+                } header: {
+                    Text("Password")
+                        .font(.system(size: 12, design: .rounded))
+                } footer: {
+                    Group {
+                        Text("Password is ")
+                            .font(.system(size: 14, design: .rounded)) +
+                        Text("\(password.passwordStrength!)".uppercased())
+                            .fontWeight(Font.Weight.bold)
+                            .font(.system(size: 14, design: .rounded))
+                            .foregroundColor(getColor(for: password.passwordStrength!))
                     }
                 }
-            }
-            
-            Section(header: Text("Notes")
-                .font(.system(size: 12, design: .rounded))) {
-                    TextField("\(password.notes!)", text: $note).font(.system(.body, design: .rounded))
-                        .disableAutocorrection(false)
+                
+                Section(header: Text("Notes")
+                    .font(.system(size: 12, design: .rounded))) {
+                        TextField("\(password.notes!)", text: $note).font(.system(.body, design: .rounded))
+                            .disableAutocorrection(false)
+                    }
+                
+                
+                Section(header: Text("\(copiedString)").font(.system(size: 12, design: .rounded))) {
+                    Button("Save") {
+                        if loginItem.isEmpty || passwordEntry.isEmpty {
+                            isAnyInfoMissing = true
+                            hapticGen.simpleError()
+                        } else if passwordEntry.count < 4 {
+                            passwordTooShort = true
+                            hapticGen.simpleError()
+                        } else {
+                            TestPass()
+                            let score = passwordTester.TestStrength(password: passwordEntry)
+                            self.hapticGen.simpleSuccess()
+                            DataController().editVaultEntry(vault: password,
+                                                            loginItem: loginItem,
+                                                            notes: note,
+                                                            password: passwordEntry,
+                                                            strength: strengthVerdict,
+                                                            strengthScore: score.rawValue,
+                                                            context: managedObjectContext)
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                    }
+                    .font(.system(.body, design: .rounded))
+                    
+                    Button("Copy Login") {
+                        self.hapticGen.simpleSelectionFeedback()
+                        isLoginCopied = true
+                        UIPasteboard.general.string = self.password.loginItem
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now())
+                        {
+                            withAnimation { copiedString = "Login Copied!" }
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3)
+                        {
+                            withAnimation { copiedString = "" }
+                        }
+                        
+                    }.font(.system(.body, design: .rounded))
+                    
+                    Button("Copy Password") {
+                        self.hapticGen.simpleSelectionFeedback()
+                        UIPasteboard.general.string = self.password.password
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now())
+                        {
+                            withAnimation { copiedString = "Password Copied!" }
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3)
+                        {
+                            withAnimation { copiedString = "" }
+                        }
+                    }.font(.system(.body, design: .rounded))
                 }
-            
-            
-            Section(header: Text("\(copiedString)").font(.system(size: 12, design: .rounded))) {
-                Button("Save") {
-                    if loginItem.isEmpty || passwordEntry.isEmpty {
-                        isAnyInfoMissing = true
-                        hapticGen.simpleError()
-                    } else {
-                        TestPass()
-                        let score = passwordTester.TestStrength(password: passwordEntry)
-                        self.hapticGen.simpleSuccess()
-                        DataController().editVaultEntry(vault: password,
-                                                        loginItem: loginItem,
-                                                        notes: note,
-                                                        password: passwordEntry,
-                                                        strength: strengthVerdict,
-                                                        strengthScore: score.rawValue,
-                                                        context: managedObjectContext)
-                        self.presentationMode.wrappedValue.dismiss()
-                    }
-                }.font(.system(.body, design: .rounded))
-                
-                Button("Copy Login") {
-                    self.hapticGen.simpleSelectionFeedback()
-                    isLoginCopied = true
-                    UIPasteboard.general.string = self.password.loginItem
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now())
-                    {
-                        withAnimation { copiedString = "Login Copied!" }
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3)
-                    {
-                        withAnimation { copiedString = "" }
-                    }
-                    
-                }.font(.system(.body, design: .rounded))
-                
-                Button("Copy Password") {
-                    self.hapticGen.simpleSelectionFeedback()
-                    UIPasteboard.general.string = self.password.password
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now())
-                    {
-                        withAnimation { copiedString = "Password Copied!" }
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3)
-                    {
-                        withAnimation { copiedString = "" }
-                    }
-                }.font(.system(.body, design: .rounded))
-            }
-            .alert(isPresented: $isAnyInfoMissing) {
-                Alert(title: Text("Missing Information"), message: Text("One or more required fields were left blank, please ensure to enter all required information"),
-                      dismissButton: .default(Text("OK")))
+                .alert(isPresented: $isAnyInfoMissing) {
+                    Alert(title: Text("Missing Information"), message: Text("One or more required fields were left blank, please ensure to enter all required information"),
+                          dismissButton: .default(Text("OK")))
+                }
+                .alert(isPresented: self.$passwordTooShort) {
+                    Alert(title: Text("Password Too Short"), message: Text("Please ensure your password is at least 4 characters long"),
+                          dismissButton: .default(Text("OK")))
+                }
             }
         }
+        .navigationBarTitle("\(password.title!)")
+        .navigationBarTitleDisplayMode(.inline)
     }
-    //        .overlay(
-    //            VStack {
-    //                Spacer()
-    //                if #available(iOS 16.0, *) {
-    //                    Spacer()
-    //                    Gauge(value: password.strengthScore, in: 0...10) {
-    //                    } currentValueLabel: {
-    //                        Text(String(format: "%.0f", password.strengthScore))
-    //                    } minimumValueLabel: {
-    //                        Text("0")
-    //                    } maximumValueLabel: {
-    //                        Text("10")
-    //                    }
-    //                    .gaugeStyle(.accessoryCircular)
-    //                    .tint(Gradient(colors: [.weakColour, .averageColour, .strongColour, .vStrongColour]))
-    //                } else {
-    //                    // Fallback on earlier versions
-    //                }
-    //                Spacer()
-    //            }.offset(y:20)
-    //        )
-    //        .ignoresSafeArea(.keyboard)
-    //    }
     
     private func TestPass() {
         
@@ -200,7 +171,7 @@ struct EditVaultEntryView: View {
             strengthVerdict = "Weak"
         case .Average:
             self.isAverage = true
-            strengthVerdict = "Average"
+            strengthVerdict = "Moderate"
         case .Strong:
             self.isStrong = true
             strengthVerdict = "Strong"
@@ -214,8 +185,8 @@ struct EditVaultEntryView: View {
         switch verdict {
         case "Weak":
             return .weakColour
-        case "Average":
-            return .averageColour
+        case "Moderate":
+            return .moderateColour
         case "Strong":
             return .strongColour
         case "Very Strong":

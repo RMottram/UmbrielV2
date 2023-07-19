@@ -11,7 +11,7 @@ import SwiftUI
 extension Color {
     static let standbyColour = Color("Standby")
     static let weakColour = Color("Weak")
-    static let averageColour = Color("Average")
+    static let moderateColour = Color("Moderate")
     static let strongColour = Color("Strong")
     static let vStrongColour = Color("VStrong")
 }

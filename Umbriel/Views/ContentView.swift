@@ -30,7 +30,7 @@ struct ContentView: View {
     
     @State private var standby = Color.standbyColour
     @State private var weak = Color.weakColour
-    @State private var average = Color.averageColour
+    @State private var average = Color.moderateColour
     @State private var strong = Color.strongColour
     @State private var vStrong = Color.vStrongColour
     @State private var opacity:Double = 0.2
@@ -61,11 +61,10 @@ struct ContentView: View {
                 
                 HStack
                 {
-                    TextField("Enter Password...", text: self.$password, onCommit: {
+                    TextField("Test Password...", text: self.$password, onCommit: {
                         self.TestPass()
                         self.hapticGen.simpleSuccess()
                     })
-                    .padding()
                     .padding(.horizontal, 10)
                     .font(.system(.title, design: .rounded))
                     .foregroundColor(.secondary.opacity(0.5))
@@ -148,7 +147,7 @@ struct ContentView: View {
                 }.tag(2)
             
         }
-        .accentColor(tabBarColor(for: selectedTab))
+        .accentColor(.standbyColour)
         .fullScreenCover(isPresented: $shouldShowOnboarding) {
             OnboardingView(shouldShowOnboarding: $shouldShowOnboarding)
         }
@@ -158,19 +157,6 @@ struct ContentView: View {
     }
     
     // MARK: ContentView Functions
-    
-    private func tabBarColor(for tab: Int) -> Color {
-        switch tab {
-        case 0:
-            return .weakColour
-        case 1:
-            return .averageColour
-        case 2:
-            return .strongColour
-        default:
-            return .standbyColour
-        }
-    }
     
     func TestPass() {
         
