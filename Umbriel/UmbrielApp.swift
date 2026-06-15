@@ -6,20 +6,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct UmbrielApp: App {
-    @StateObject private var dataController = DataController()
-
     var body: some Scene {
         WindowGroup {
-            ContentView().environment(\.managedObjectContext, dataController.container.viewContext)
+            ContentView()
         }
-        .onChange(of: UIApplication.shared.applicationState) { state in
-                    if state == .inactive {
-                        // Handle app becoming inactive (e.g., freezing or crashing)
-                        fatalError("App has become inactive.")
-                    }
-                }
+        .modelContainer(for: VaultEntry.self)
+        .onChange(of: UIApplication.shared.applicationState) { _, state in
+            if state == .inactive {
+                // Handle app becoming inactive (e.g., freezing or crashing)
+                fatalError("App has become inactive.")
+            }
+        }
     }
 }

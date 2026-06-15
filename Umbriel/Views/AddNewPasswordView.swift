@@ -6,15 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AddNewPasswordView: View {
-    
+
     var hapticGen = Haptics()
     var passwordStrength = PasswordLogic()
-    
-    @Environment(\.managedObjectContext) var context
+
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
-    
+
     @State private var isAnyInfoMissing:Bool = false
     @State private var isSheetPresented:Bool = false
     @State var passwordTitle:String = ""
@@ -23,15 +24,15 @@ struct AddNewPasswordView: View {
     @State var note:String = ""
     @State var strength:String = ""
     @State var strengthVerdict:String = ""
-    
+
     @State private var isBlank:Bool = false
     @State private var isWeak:Bool = false
     @State private var isAverage:Bool = false
     @State private var isStrong:Bool = false
     @State private var isVeryStrong:Bool = false
-    
+
     var body: some View {
-        
+
         NavigationView {
             Form {
                 Section {
@@ -43,7 +44,7 @@ struct AddNewPasswordView: View {
                             .disableAutocorrection(false)
                     }
                 }
-                
+
                 Section {
                     TextField("*Login Item", text: $loginItem)
                         .font(.system(.body, design: .rounded))
@@ -51,14 +52,14 @@ struct AddNewPasswordView: View {
                         .autocapitalization(.none)
                         .keyboardType(.emailAddress)
                 }
-                
+
                 Section {
                     TextField("*Password", text: $passwordEntry)
                         .font(.system(.body, design: .rounded))
                         .disableAutocorrection(true)
                         .autocapitalization(.none)
                 }
-                
+
                 Button("Submit") {
                     if self.passwordTitle.isEmpty || self.passwordEntry.isEmpty || self.loginItem.isEmpty {
                         self.isAnyInfoMissing = true
@@ -67,14 +68,21 @@ struct AddNewPasswordView: View {
                         TestPass()
                         self.hapticGen.simpleSuccess()
                         let score = passwordStrength.TestStrength(password: passwordEntry)
-                        DataController().addVaultEntry(password: passwordEntry,
-                                                       title: passwordTitle,
-                                                       loginItem: loginItem,
-                                                       notes: "\(passwordTitle) notes",
-                                                       strength: strengthVerdict,
-                                                       strengthScore: score.rawValue,
-                                                       context: context)
-                        
+                        let entry = VaultEntry(
+                            title: passwordTitle,
+                            loginItem: loginItem,
+                            password: passwordEntry,
+                            notes: "\(passwordTitle) notes",
+                            passwordStrength: strengthVerdict,
+                            strengthScore: score.rawValue
+                        )
+                        modelContext.insert(entry)
+                        do {
+                            try modelContext.save()
+                        } catch {
+                            print("Failed to save entry: \(error.localizedDescription)")
+                        }
+
                         presentationMode.wrappedValue.dismiss()
                     }
                 }.font(.system(.body, design: .rounded))
@@ -85,16 +93,16 @@ struct AddNewPasswordView: View {
             }
             .navigationBarTitle("Enter Password Details", displayMode: .inline)
         }
-        
+
     }
-    
+
     private func dismiss() {
         isSheetPresented = false
         presentationMode.wrappedValue.dismiss()
     }
-    
+
     private func TestPass() {
-        
+
         switch self.passwordStrength.TestStrength(password: passwordEntry)
         {
         case .Blank:
@@ -113,7 +121,7 @@ struct AddNewPasswordView: View {
             strengthVerdict = "Very Strong"
         }
     }
-    
+
 }
 
 struct AddNewPasswordView_Previews: PreviewProvider {

@@ -6,16 +6,17 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct EditVaultEntryView: View {
-    
-    @Environment(\.managedObjectContext) var managedObjectContext
+
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
-    
-    var password: FetchedResults<Vault>.Element
+
+    var password: VaultEntry
     var hapticGen = Haptics()
     var passwordTester = PasswordLogic()
-    
+
     @State var loginItem:String = ""
     @State var passwordEntry:String = ""
     @State var note:String = ""
@@ -31,17 +32,17 @@ struct EditVaultEntryView: View {
     @State var isAverage:Bool = false
     @State var isStrong:Bool = true
     @State var isVStrong:Bool = false
-    
+
     var body: some View {
-        
+
         Form {
             Section(header: Text("Login")
                 .font(.system(size: 12, design: .rounded))) {
-                    TextField("\(password.loginItem!)", text: $loginItem).font(.system(.body, design: .rounded))
+                    TextField("\(password.loginItem)", text: $loginItem).font(.system(.body, design: .rounded))
                         .onAppear {
-                            loginItem = password.loginItem!
-                            passwordEntry = password.password!
-                            note = password.notes!
+                            loginItem = password.loginItem
+                            passwordEntry = password.password
+                            note = password.notes
                             strengthScore = password.strengthScore
                             print("password.strengthScore - \(password.strengthScore)")
                             print("strengthScore - \(strengthScore)")
@@ -50,11 +51,11 @@ struct EditVaultEntryView: View {
                         .autocapitalization(.none)
                         .keyboardType(.emailAddress)
                 }
-            
+
             Section {
                 ZStack {
                     HStack {
-                        TextField("\(password.password!)", text: $passwordEntry).font(.system(.body, design: .rounded))
+                        TextField("\(password.password)", text: $passwordEntry).font(.system(.body, design: .rounded))
                             .disableAutocorrection(true)
                             .autocapitalization(.none)
                             .blur(radius: isHidden ? 7 : 0)
@@ -76,10 +77,10 @@ struct EditVaultEntryView: View {
                 Group {
                     Text("Password is ")
                         .font(.system(size: 14, design: .rounded)) +
-                    Text("\(password.passwordStrength!)")
+                    Text("\(password.passwordStrength)")
                         .fontWeight(Font.Weight.bold)
                         .font(.system(size: 14, design: .rounded))
-                        .foregroundColor(getColor(for: password.passwordStrength!))
+                        .foregroundColor(getColor(for: password.passwordStrength))
                 }
             }
             if #available(iOS 16.0, *) {
@@ -101,14 +102,14 @@ struct EditVaultEntryView: View {
                     }
                 }
             }
-            
+
             Section(header: Text("Notes")
                 .font(.system(size: 12, design: .rounded))) {
-                    TextField("\(password.notes!)", text: $note).font(.system(.body, design: .rounded))
+                    TextField("\(password.notes)", text: $note).font(.system(.body, design: .rounded))
                         .disableAutocorrection(false)
                 }
-            
-            
+
+
             Section(header: Text("\(copiedString)").font(.system(size: 12, design: .rounded))) {
                 Button("Save") {
                     if loginItem.isEmpty || passwordEntry.isEmpty {
@@ -118,22 +119,25 @@ struct EditVaultEntryView: View {
                         TestPass()
                         let score = passwordTester.TestStrength(password: passwordEntry)
                         self.hapticGen.simpleSuccess()
-                        DataController().editVaultEntry(vault: password,
-                                                        loginItem: loginItem,
-                                                        notes: note,
-                                                        password: passwordEntry,
-                                                        strength: strengthVerdict,
-                                                        strengthScore: score.rawValue,
-                                                        context: managedObjectContext)
+                        password.loginItem = loginItem
+                        password.notes = note
+                        password.password = passwordEntry
+                        password.passwordStrength = strengthVerdict
+                        password.strengthScore = score.rawValue
+                        do {
+                            try modelContext.save()
+                        } catch {
+                            print("Failed to save edits: \(error.localizedDescription)")
+                        }
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 }.font(.system(.body, design: .rounded))
-                
+
                 Button("Copy Login") {
                     self.hapticGen.simpleSelectionFeedback()
                     isLoginCopied = true
                     UIPasteboard.general.string = self.password.loginItem
-                    
+
                     DispatchQueue.main.asyncAfter(deadline: .now())
                     {
                         withAnimation { copiedString = "Login Copied!" }
@@ -142,13 +146,13 @@ struct EditVaultEntryView: View {
                     {
                         withAnimation { copiedString = "" }
                     }
-                    
+
                 }.font(.system(.body, design: .rounded))
-                
+
                 Button("Copy Password") {
                     self.hapticGen.simpleSelectionFeedback()
                     UIPasteboard.general.string = self.password.password
-                    
+
                     DispatchQueue.main.asyncAfter(deadline: .now())
                     {
                         withAnimation { copiedString = "Password Copied!" }
@@ -165,32 +169,9 @@ struct EditVaultEntryView: View {
             }
         }
     }
-    //        .overlay(
-    //            VStack {
-    //                Spacer()
-    //                if #available(iOS 16.0, *) {
-    //                    Spacer()
-    //                    Gauge(value: password.strengthScore, in: 0...10) {
-    //                    } currentValueLabel: {
-    //                        Text(String(format: "%.0f", password.strengthScore))
-    //                    } minimumValueLabel: {
-    //                        Text("0")
-    //                    } maximumValueLabel: {
-    //                        Text("10")
-    //                    }
-    //                    .gaugeStyle(.accessoryCircular)
-    //                    .tint(Gradient(colors: [.weakColour, .averageColour, .strongColour, .vStrongColour]))
-    //                } else {
-    //                    // Fallback on earlier versions
-    //                }
-    //                Spacer()
-    //            }.offset(y:20)
-    //        )
-    //        .ignoresSafeArea(.keyboard)
-    //    }
-    
+
     private func TestPass() {
-        
+
         switch self.passwordTester.TestStrength(password: passwordEntry)
         {
         case .Blank:
@@ -209,7 +190,7 @@ struct EditVaultEntryView: View {
             strengthVerdict = "Very Strong"
         }
     }
-    
+
     func getColor(for verdict: String) -> Color {
         switch verdict {
         case "Weak":
@@ -224,11 +205,5 @@ struct EditVaultEntryView: View {
             return .pink
         }
     }
-    
-}
 
-//struct EditVaultEntryView_Preview: PreviewProvider {
-//    static var previews: some View {
-//        EditVaultEntryView(password: password)
-//    }
-//}
+}

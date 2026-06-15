@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
-import CoreData
+import SwiftData
 import LocalAuthentication
 
 struct TheVaultView: View {
-    
-    @Environment(\.managedObjectContext) var managedObjContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Vault.title, ascending: true)]) var vault: FetchedResults<Vault>
-    
+
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \VaultEntry.title) private var vault: [VaultEntry]
+
     @State private var showAddView:Bool = false
     @State private var searchText = ""
     @State private var isUnlocked = false
@@ -21,17 +21,17 @@ struct TheVaultView: View {
     @State private var isBiometricSupported = false
     @State private var biometricType = LABiometryType.none
     @State private var isDeleteAll = false
-    
+
     var body: some View {
-        
+
         ZStack {
-            
+
             if isUnlocked {
-                
+
                 NavigationView {
-                    
+
                     VStack {
-                        
+
                         // MARK: Search Bar
                         VStack {
                             SearchBar(text: $searchText)
@@ -51,7 +51,7 @@ struct TheVaultView: View {
                                 Spacer()
                             }
                         }
-                        
+
                         // MARK: Password Entries List
                         if vault.count == 0 {
                             Text("No entries found, press the \(Image(systemName: "plus")) button to create a new entry").foregroundColor(.secondary)
@@ -59,7 +59,7 @@ struct TheVaultView: View {
                             Spacer()
                         } else {
                             List {
-                                ForEach(self.vault.filter({ searchText.isEmpty ? true : $0.description.contains(searchText) })) { passwords in
+                                ForEach(self.vault.filter({ searchText.isEmpty ? true : $0.title.localizedCaseInsensitiveContains(searchText) })) { passwords in
                                     NavigationLink(destination: EditVaultEntryView(password: passwords)) {
                                         EntryRow(passwordEntry: passwords)
                                     }
@@ -67,7 +67,7 @@ struct TheVaultView: View {
                             }
                         }
                     }
-                    
+
                     // MARK: NavBar Items
                     .navigationBarTitle("TheVault", displayMode: .inline)
                     .navigationBarItems(leading: EditButton(), trailing:
@@ -95,27 +95,27 @@ struct TheVaultView: View {
                         message: Text("Are you sure you want to delete all? This cannot be undone!"),
                         primaryButton: .cancel(Text("Cancel")),
                         secondaryButton: .destructive(Text("Delete All"), action: {
-                            DataController().deleteAllEntries(context: managedObjContext)
+                            DataController.deleteAllEntries(context: modelContext)
                     }))
                 }
                 .onDisappear(perform: lockVault)
             } else {
-                
+
                 VStack {
                     Spacer()
-                    
+
                     Image(systemName: "lock.shield")
                         .font(.system(size: 100))
                         .foregroundColor(.strongColour)
-                    
+
                     Text("TheVault requires the use of your devices' TouchID or FaceID sensors to be used. If these have not been activated please activate them in your devices settings.")
                         .multilineTextAlignment(.center)
                         .padding(.all, 10)
                         .font(.system(.body, design: .rounded))
                         .minimumScaleFactor(0.5)
-                    
+
                     Spacer()
-                    
+
                     if isBiometricSupported {
                         Button(action: {
                             authenticate()
@@ -129,38 +129,33 @@ struct TheVaultView: View {
                         .background(Color.init(red: 58/255, green: 146/255, blue: 236/255))
                         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     }
-                    
+
                     Spacer()
-                    
+
                 }
-                
+
             }
         }
         .onAppear {
             checkBiometricSupport()
             authenticate()
         }
-        
+
     }
-    
-    private func getRecordsCount() -> Int {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Vault")
-        var counter = 0
-        do {
-            counter = try managedObjContext.count(for: fetchRequest)
-        } catch {
-            print(error.localizedDescription)
-        }
-        return counter
-    }
-    
+
     private func removePasswordEntry(offsets: IndexSet) {
         withAnimation {
-            offsets.map { vault[$0] }.forEach(managedObjContext.delete)
-            DataController().save(context: managedObjContext)
+            for index in offsets {
+                modelContext.delete(vault[index])
+            }
+            do {
+                try modelContext.save()
+            } catch {
+                print("Failed to save deletions: \(error.localizedDescription)")
+            }
         }
     }
-    
+
     private func checkBiometricSupport() {
         let context = LAContext()
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
@@ -168,19 +163,19 @@ struct TheVaultView: View {
             biometricType = context.biometryType
         }
     }
-    
+
     private func authenticate() {
         let context = LAContext()
         var error: NSError?
-        
+
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             let reason = "Please authenticate to enter TheVault"
-            
+
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
-                
+
                 isBiometricSupported = true
                 biometricType = context.biometryType
-                
+
                 DispatchQueue.main.async {
                     if success {
                         self.isUnlocked = true
@@ -195,22 +190,22 @@ struct TheVaultView: View {
             self.noBiometrics = true
         }
     }
-    
+
     private func lockVault() {
         isUnlocked = false
     }
-    
+
     // MARK: Vault EntryRowView
     struct EntryRow: View {
-        
-        var passwordEntry: Vault
+
+        var passwordEntry: VaultEntry
         @State private var isHidden: Bool = true
-        
+
         var body: some View {
-            
+
             HStack {
                 VStack(alignment: .leading) {
-                    Text(passwordEntry.title ?? "No title given").font(.system(.body, design: .rounded)).bold()
+                    Text(passwordEntry.title).font(.system(.body, design: .rounded)).bold()
                         .padding(.vertical, 10)
                 }
             }
@@ -221,12 +216,12 @@ struct TheVaultView: View {
 // MARK: Vault SearchBarView
 struct SearchBar: View {
     @Binding var text: String
-    
+
     @State private var isEditing = false
-    
+
     var body: some View {
         HStack {
-            
+
             TextField("", text: $text)
                 .font(.system(.body, design: .rounded))
                 .padding(7)
@@ -239,7 +234,7 @@ struct SearchBar: View {
                             .foregroundColor(.gray)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 8)
-                        
+
                         if isEditing {
                             Button(action: {
                                 self.text = ""
@@ -258,17 +253,17 @@ struct SearchBar: View {
                         self.isEditing = true
                     }
                 }
-            
+
             if isEditing {
                 Button(action: {
                     withAnimation {
                         self.isEditing = false
                     }
                     self.text = ""
-                    
+
                     // dismiss keyboard
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                    
+
                 }) {
                     Text("Cancel")
                         .font(.system(.body, design: .rounded))
